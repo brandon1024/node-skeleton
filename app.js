@@ -30,6 +30,7 @@ app.use(sassMiddleware({
   sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/mdb', express.static(path.join(__dirname, 'node_modules/mdbootstrap')));
 
 app.use('/', index);
 app.use('/login', login);
