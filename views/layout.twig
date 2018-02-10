@@ -5,6 +5,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <link rel='stylesheet' href='/mdb/css/bootstrap.min.css'/>
     <link rel='stylesheet' href='/mdb/css/mdb.min.css'/>
+    {% block stylesheets %}{% endblock %}
   </head>
   <body>
     <!--Main Navigation-->
@@ -33,7 +34,9 @@
         </nav>
     </header>
     <!--Main Navigation-->
-    {% block body %}{% endblock %}
+    <div class="container-fluid" id="layout-body">
+      {% block body %}{% endblock %}
+    </div>
   </body>
   <script type="text/javascript" src="/mdb/js/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="/mdb/js/bootstrap.min.js"></script>
