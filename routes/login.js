@@ -6,8 +6,8 @@ router.get('/', function(req, res, next) {
     res.render('login', { title: 'Express' });
 });
 
-router.post('/', passport.authenticate('local', {
-    successRedirect: '/',failureRedirect: '/login',
+router.post('/', passport.authenticate('login', {
+    successRedirect: '/chat',failureRedirect: '/login',
     failureFlash: true
 }));
 
