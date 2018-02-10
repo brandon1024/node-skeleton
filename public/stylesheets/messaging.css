@@ -19,13 +19,25 @@
   border: none; }
 
 #message-input {
-  width: 100%; }
+  width: 100%;
+  position: fixed;
+  bottom: 0; }
 
 #info-bar {
   padding-top: 0;
   padding-bottom: 0;
   box-shadow: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125); }
+
+input[type=text] {
+  border-bottom: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+  height: 50px; }
+
+input[type=text]:focus:not([readonly]) {
+  border-top: 1px solid #4285F4;
+  border-bottom: none;
+  box-shadow: 0 1px 0 0 #4285F4; }
 
 .fa-gears {
   float: right; }
