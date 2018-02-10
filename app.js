@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/login', login);
 app.use('/register', registration);
-app.use('/me', messaging);
+app.use('/messages', messaging);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
