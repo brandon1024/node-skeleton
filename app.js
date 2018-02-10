@@ -7,6 +7,7 @@ var login = require('./routes/login');
 var registration = require('./routes/registration');
 var channels = require('./routes/channels');
 var messages = require('./routes/messages');
+var chat = require('./routes/chat');
 
 var app = express();
 
@@ -23,6 +24,7 @@ app.use('/channels', channels);
 app.use('/login', login);
 app.use('/register', registration);
 app.use('/messages', messages);
+app.use('/chat', chat);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
