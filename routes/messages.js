@@ -8,16 +8,9 @@ router.get('/', function (req, res, next) {
     });
 });
 
-router.post('/',function (req, res, next) {
-    var params = _.pick(req.body, 'body');
-
-    eq.models.message.create(params, function (err, message) {
-        if(err) {
-            return next(err);
-        }
-        return res.send(200, message);
-    });
+/* GET home page. */
+router.get('/', function(req, res, next) {
+    res.render('messaging', { title: 'Express' });
 });
 
 module.exports = router;
-

@@ -3,7 +3,8 @@ var path = require('path');
 var middleware = require('./middleware');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var login = require('./routes/login');
+var registration = require('./routes/registration');
 var channels = require('./routes/channels');
 var messages = require('./routes/messages');
 
@@ -12,12 +13,15 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
 
+app.use('/mdb', express.static(__dirname + '/node_modules/mdbootstrap'));
+app.use('/', express.static(__dirname + '/public'));
+
 middleware(app);
 
-
 app.use('/', index);
-app.use('/users', users);
 app.use('/channels', channels);
+app.use('/login', login);
+app.use('/register', registration);
 app.use('/messages', messages);
 
 // catch 404 and forward to error handler
