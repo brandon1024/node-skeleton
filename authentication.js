@@ -1,7 +1,7 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-passport.use('signup', new LocalStrategy({
+passport.use('registration', new LocalStrategy({
         passReqToCallback : true
     },
     function(req, username, password, done) {
