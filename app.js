@@ -28,6 +28,13 @@ app.use(sassMiddleware({
   sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(orm.express("mysql://root:hackthehack@localhost/hackathon", {
+  define: function (db, models) {
+    models.person = db.define("person", {
+      username: String
+    });
+  }
+}));
 
 app.use('/', index);
 app.use('/users', users);
