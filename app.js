@@ -5,6 +5,7 @@ var middleware = require('./middleware');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var channels = require('./routes/channels');
+var messages = require('./routes/messages');
 
 var app = express();
 
@@ -17,7 +18,7 @@ middleware(app);
 app.use('/', index);
 app.use('/users', users);
 app.use('/channels', channels);
-
+app.use('/messages', messages);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
