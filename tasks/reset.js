@@ -15,6 +15,7 @@ models(function (err, db) {
                 db.close();
                 console.log("Done!");
             });
+            
             //db.models.user.create({id: 2, username: 'amir', password: 'hackthehack'});
             //db.models.user.create({id: 3, username: 'brandon', password: 'hackthehack'});
             //db.models.user.create({id: 4, username: 'alex', password: 'hackthehack'});
