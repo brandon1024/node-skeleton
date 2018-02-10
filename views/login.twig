@@ -1,6 +1,32 @@
 {% extends 'layout.twig' %}
 
+{#Garb#}
+
 {% block body %}
-  <h1>{{title}}</h1>
-  <p>Login {{title}}</p>
+
+  <!-- Form login -->
+    <div class = "col-4 align-content-center">
+      <form >
+        <p class="h5 text-center mb-4">Sign in</p>
+
+        <div class="md-form">
+          <i class="fa fa-user prefix grey-text"></i>
+          <input type="text" id="defaultForm-email" class="form-control">
+          <label for="defaultForm-email">Username</label>
+        </div>
+
+        <div class="md-form">
+          <i class="fa fa-lock prefix grey-text"></i>
+          <input type="password" id="defaultForm-pass" class="form-control">
+          <label for="defaultForm-pass">Password</label>
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-default">Login</button>
+        </div>
+      </form>
+    </div>
+  <!-- Form login -->
+
+  </div>
 {% endblock %}
