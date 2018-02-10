@@ -30,3 +30,7 @@ node_modules
 
 # Debug log from npm
 npm-debug.log
+
+# Ignore rendered stylesheets
+public/stylesheets/*.css
+public/stylesheets/*.map
