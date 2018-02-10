@@ -8,12 +8,9 @@ module.exports = function (orm, db) {
                 beforeValidation: function () {
                     this.createdAt = new Date();
                 }
-            },
-            validations: {
-                body   : orm.enforce.ranges.length(1, 1024)
             }
         });
 
     Message.hasOne('user', db.models.user, { required: true, reverse: 'messages', autoFetch: true });
-    Message.hasOne('user', db.models.channel, { required: true, reverse: 'messages', autoFetch: true });
+    Message.hasOne('channel', db.models.channel, { required: true, reverse: 'messages', autoFetch: true });
 };
