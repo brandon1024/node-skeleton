@@ -32,7 +32,7 @@ passport.use('signup', new LocalStrategy({
     }
 ));
 
-passport.use(new LocalStrategy(
+passport.use('login', new LocalStrategy(
     function(req, username, password, done) {
         req.models.user.find({ username: username }, function(err, user) {
             if (err) { return done(err); }
@@ -42,7 +42,7 @@ passport.use(new LocalStrategy(
             if (!user.authenticate(password)) {
                 return done(null, false, { message: 'Incorrect password.' });
             }
-            
+
             return done(null, user);
         });
     }
