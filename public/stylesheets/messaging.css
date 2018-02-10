@@ -12,6 +12,7 @@
   border-right: 1px solid rgba(0, 0, 0, 0.125); }
 
 #message-pane {
+  padding-left: 20%;
   padding-top: 64px; }
 
 .list-group-item {
@@ -19,5 +20,18 @@
 
 #message-input {
   width: 100%; }
+
+#info-bar {
+  padding-top: 0;
+  padding-bottom: 0;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125); }
+
+.fa-gears {
+  float: right; }
+
+#conversation-settings-label-text {
+  float: right;
+  color: #000; }
 
 /*# sourceMappingURL=messaging.css.map */
