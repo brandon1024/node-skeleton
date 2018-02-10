@@ -5,4 +5,4 @@ models(function (err, db) {
     db.sync(function (err) {
         if(err) throw err;
     });
-};
+});
