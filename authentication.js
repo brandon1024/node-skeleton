@@ -1,17 +1,8 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-passport.use('registration', new LocalStrategy({
-        passReqToCallback : true
-    },
-    function(req, username, password, done) {
-        findOrCreateUser = function() {
-            req.models.user.find({'username': username},function(err, user) {
-                if (err){
-                    return done(err);
-                }
 module.exports = function () {
-    passport.use('signup', new LocalStrategy({
+    passport.use('register', new LocalStrategy({
             passReqToCallback : true
         },
         function(req, username, password, done) {
@@ -30,14 +21,12 @@ module.exports = function () {
                         }, function (err, user) {
                             if(err) throw err;
 
-                            return done(null, newUser);
+                            return done(null, user);
                         });
                     }
                 });
             };
 
-            // Delay the execution of findOrCreateUser and execute
-            // the method in the next tick of the event loop
             process.nextTick(findOrCreateUser);
         }
     ));
@@ -60,11 +49,13 @@ module.exports = function () {
     }));
 
     passport.serializeUser(function(user, done) {
-        done(null, user);
+        done(null, user.id);
     });
 
-    passport.deserializeUser(function(user, done) {
-        done(null, user);
+    passport.deserializeUser(function(req, id, done) {
+        req.models.user.find({id: id}).one(function (err, user) {
+            done(null, user);
+        });
     });
 };
 

@@ -5,7 +5,7 @@ var authentication = require('./authentication');
 
 var index = require('./routes/index');
 var login = require('./routes/login');
-var registration = require('./routes/registration');
+var register = require('./routes/register');
 var channels = require('./routes/channels');
 var messages = require('./routes/messages');
 var chat = require('./routes/chat');
@@ -16,16 +16,13 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
 
-app.use('/mdb', express.static(__dirname + '/node_modules/mdbootstrap'));
-app.use('/', express.static(__dirname + '/public'));
-
 middleware(app);
 authentication();
 
 app.use('/', index);
 app.use('/channels', channels);
 app.use('/login', login);
-app.use('/register', registration);
+app.use('/register', register);
 app.use('/messages', messages);
 app.use('/chat', chat);
 app.use('/users', users);

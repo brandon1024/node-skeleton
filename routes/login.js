@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', passport.authenticate('login', {
-    successRedirect: '/chat',failureRedirect: '/login',
+    successRedirect: '/chat', failureRedirect: '/login',
     failureFlash: true
 }));
 
