@@ -1,7 +1,11 @@
+/* Retrieve Router Handler */
 var express = require('express');
-var passport = require('passport');
 var router = express.Router();
 
+/* Retrieve Passport Authentication Service */
+var passport = require('passport');
+
+/* Views */
 router.get('/', function(req, res, next) {
     res.render('login', {
         title: 'APP TITLE',
@@ -9,9 +13,12 @@ router.get('/', function(req, res, next) {
     });
 });
 
+
+/* API Endpoints */
 router.post('/', passport.authenticate('login', {
     successRedirect: '/chat', failureRedirect: '/login',
     failureFlash: true
 }));
+
 
 module.exports = router;
