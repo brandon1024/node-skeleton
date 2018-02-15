@@ -10,7 +10,7 @@ var flash = require("connect-flash");
 var passport = require('passport');
 
 module.exports = function (app) {
-    app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+    // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
     app.use('/mdb', express.static(__dirname + '/node_modules/mdbootstrap'));
     app.use('/', express.static(__dirname + '/public'));
     app.use(logger('dev'));

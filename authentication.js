@@ -3,19 +3,22 @@ var LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function () {
     /**
-     * The local strategy for
+     * The local strategy for creating a user.
      */
     passport.use('signup', new LocalStrategy({
             passReqToCallback : true
         },
         function(req, username, password, done) {
+            console.debug('create user with username: ' + username);
             findOrCreateUser = function() {
-                req.models.user.find({'username': username},function(err, user) {
+                req.models.user.find({'username': username}).one(function(err, user) {
                     if (err){
+                        console.debug('signup err: ' + err);
                         return done(err);
                     }
 
                     if (user) {
+                        console.debug('user with username already exists: ' + user);
                         return done(null, false, req.flash('message','User Already Exists'));
                     } else {
                         req.models.user.create({
