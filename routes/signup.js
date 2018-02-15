@@ -3,7 +3,10 @@ var passport = require('passport');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-    res.render('signup', { title: 'Express' });
+    res.render('signup', {
+        title: 'APP TITLE',
+        navbar: {title: 'APP TITLE NAV'}
+    });
 });
 
 router.post('/', passport.authenticate('signup', {
