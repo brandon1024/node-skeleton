@@ -4,8 +4,6 @@ var settings = require('../settings');
 var connection = null;
 
 function setup(db, cb) {
-    require('./message')(orm, db);
-    require('./channel')(orm, db);
     require('./user')(orm, db);
 
     return cb(null, db);

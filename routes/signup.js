@@ -3,11 +3,11 @@ var passport = require('passport');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-    res.render('register', { title: 'Express' });
+    res.render('signup', { title: 'Express' });
 });
 
 router.post('/', passport.authenticate('register', {
-    successRedirect: '/chat',failureRedirect: '/register',
+    successRedirect: '/chat',failureRedirect: '/signup',
     failureFlash: true
 }));
 
