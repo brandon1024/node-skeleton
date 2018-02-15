@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
     res.render('signup', { title: 'Express' });
 });
 
-router.post('/', passport.authenticate('register', {
+router.post('/', passport.authenticate('signup', {
     successRedirect: '/chat',failureRedirect: '/signup',
     failureFlash: true
 }));

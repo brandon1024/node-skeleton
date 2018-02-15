@@ -2,7 +2,10 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function () {
-    passport.use('register', new LocalStrategy({
+    /**
+     * The local strategy for
+     */
+    passport.use('signup', new LocalStrategy({
             passReqToCallback : true
         },
         function(req, username, password, done) {
