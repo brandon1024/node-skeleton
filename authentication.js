@@ -37,6 +37,9 @@ module.exports = function () {
         }
     ));
 
+    /**
+     * Local strategy for logging in a user.
+     */
     passport.use('login', new LocalStrategy({
         passReqToCallback: true
     }, function(req, username, password, done) {
@@ -55,13 +58,11 @@ module.exports = function () {
     }));
 
     passport.serializeUser(function(user, done) {
-        done(null, user.id);
+        done(null, user);
     });
 
-    passport.deserializeUser(function(req, id, done) {
-        req.models.user.find({id: id}).one(function (err, user) {
-            done(null, user);
-        });
+    passport.deserializeUser(function(req, user, done) {
+        done(null, user);
     });
 };
 
