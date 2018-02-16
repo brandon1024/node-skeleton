@@ -1,12 +1,16 @@
 {% extends 'base.twig' %}
 
+{# Add View-Specific Stylesheets #}
 {% block stylesheets %}
     <link rel='stylesheet' href='/stylesheets/index.css'/>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
 {% endblock %}
 
-{% block body %}
+{# Add View-Specific Scripts #}
+{% block scripts %}{% endblock %}
 
+{# View Body #}
+{% block body %}
     <div class="container">
         <div id = "backdrop">
             <div class="container">
@@ -24,6 +28,4 @@
             </div>
         </div>
     </div>
-
-
 {% endblock %}
