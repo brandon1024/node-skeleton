@@ -1,29 +1,31 @@
 {% extends 'base.twig' %}
 
+{# Add View-Specific Stylesheets #}
 {% block stylesheets %}
     <link rel='stylesheet' href='/stylesheets/index.css'/>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
 {% endblock %}
 
+{# Add View-Specific Scripts #}
+{% block scripts %}{% endblock %}
+
+{# View Body #}
 {% block body %}
-
-    <div class="container">
-        <div id = "backdrop">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div id= "content">
-                            <h1>Sneaky Msg</h1>
-                            <h3>The Most Secure Messenger</h3>
-                            <hr>
-                            <a class="btn btn-large pink" href="/signup" role="button"><i class="fa fa-user-plus"></i> Sign Up</a>
-                            <a class="btn btn-large pink" href="/login" role="button"><i class="fa fa-user"></i> Login </a>
-                        </div>
-                    </div>
-                </div>
+  <div class="container">
+    <div id = "backdrop">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div id= "content">
+              <h1>Sneaky Msg</h1>
+              <h3>The Most Secure Messenger</h3>
+              <hr>
+              <a class="btn btn-large pink" href="/signup" role="button"><i class="fa fa-user-plus"></i> Sign Up</a>
+              <a class="btn btn-large pink" href="/login" role="button"><i class="fa fa-user"></i> Login </a>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-
-
+  </div>
 {% endblock %}

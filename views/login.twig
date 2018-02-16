@@ -1,5 +1,12 @@
 {% extends 'base.twig' %}
 
+{# Add View-Specific Stylesheets #}
+{% block stylesheets %}{% endblock %}
+
+{# Add View-Specific Scripts #}
+{% block scripts %}{% endblock %}
+
+{# View Body #}
 {% block body %}
   <div class = "card sign-in-card">
     <form action="/login" method="post" class = "sign-in-form card-body">
