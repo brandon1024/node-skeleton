@@ -1,8 +1,9 @@
-
-
 /* Retrieve Router Handler */
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const debug = require('debug')('route-logout');
+
+/* Views */
 
 /* API Endpoints */
 router.get('/logout', function(req, res){

@@ -1,66 +1,66 @@
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+/* Middleware Definitions */
+const debug = require('debug')('authentication');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function () {
-    /**
-     * The local strategy for creating a user.
-     */
+    /* Create User Strategy */
     passport.use('signup', new LocalStrategy({
             passReqToCallback : true
         },
         function(req, username, password, done) {
-            console.debug('create user with username: ' + username);
-            findOrCreateUser = function() {
+            debug('create user with username: ' + username);
+
+            process.nextTick(function() {
                 req.models.user.find({'username': username}).one(function(err, user) {
                     if (err){
-                        console.debug('signup err: ' + err);
+                        debug('signup err: ' + err);
                         return done(err);
                     }
 
                     if (user) {
-                        console.debug('user with username already exists: ' + user);
+                        debug('user with username already exists: ' + user);
                         return done(null, false, req.flash('message','User Already Exists'));
-                    } else {
-                        req.models.user.create({
-                            username: username,
-                            password: password
-                        }, function (err, user) {
-                            if(err) throw err;
-
-                            return done(null, user);
-                        });
                     }
-                });
-            };
 
-            process.nextTick(findOrCreateUser);
+                    req.models.user.create({
+                        username: username,
+                        password: password
+                    }, function (err, user) {
+                        if(err)
+                            throw err;
+
+                        return done(null, user);
+                    });
+                });
+            });
         }
     ));
 
-    /**
-     * Local strategy for logging in a user.
-     */
+    /* User Authentication Strategy */
     passport.use('login', new LocalStrategy({
         passReqToCallback: true
     }, function(req, username, password, done) {
         req.models.user.find({ username: username }).one(function(err, user) {
-            if (err) { return done(err); }
+            if (err)
+                return done(err);
 
-            if (!user) {
+            if (!user)
                 return done(null, false, { message: 'Incorrect username.' });
-            }
-            if (!user.authenticate(password)) {
+
+            if (!user.authenticate(password))
                 return done(null, false, { message: 'Incorrect password.' });
-            }
 
             return done(null, user);
         });
     }));
 
+    /* User Serialization */
     passport.serializeUser(function(user, done) {
         done(null, user);
     });
 
+    /* User Deserialization */
     passport.deserializeUser(function(req, user, done) {
         done(null, user);
     });

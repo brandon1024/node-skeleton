@@ -1,36 +1,53 @@
-var express = require('express');
-var path = require('path');
-var middleware = require('./middleware');
-var authentication = require('./authentication');
-var errorHandler = require('./error-handler');
+/* Application */
+const express = require('express');
+const path = require('path');
+const app = express();
 
-var index = require('./routes/index');
-var login = require('./routes/login');
-var signup = require('./routes/signup');
-var users = require('./routes/users');
-var logout = require('./routes/logout');
+/* Middleware Definitions */
+const debug = require('debug')('app');
 
-var app = express();
+/* Middleware Services */
+const middleware = require('./middleware');
+const authentication = require('./authentication');
+const errorHandler = require('./error-handler');
 
+/* Route Definitions */
+const index = require('./routes/index');
+const login = require('./routes/login');
+const signup = require('./routes/signup');
+const users = require('./routes/users');
+const logout = require('./routes/logout');
+
+/* App Views and View Engine */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
 
+/* Configure Middleware */
 middleware(app);
 authentication();
 
+/* Expose and Serve Static Files */
+app.use('/mdb', express.static(__dirname + '/node_modules/mdbootstrap'));
+app.use('/', express.static(__dirname + '/public'));
+
 function authenticate(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
+    if (req.isAuthenticated())
+        return next();
+
     res.redirect('/login')
 }
 
+/* Route Handlers Not Requiring Auth */
 app.use('/', index);
 app.use('/logout', logout);
 app.use('/login', login);
 app.use('/signup', signup);
 
+/* Route Handlers Requiring Auth */
 app.use(authenticate);
 app.use('/users', users);
 
+/* Implement Error Handler */
 errorHandler(app);
 
 module.exports = app;

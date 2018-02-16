@@ -1,9 +1,10 @@
 /* Retrieve Router Handler */
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const debug = require('debug')('route-login');
 
 /* Retrieve Passport Authentication Service */
-var passport = require('passport');
+const passport = require('passport');
 
 /* Views */
 router.get('/', function(req, res, next) {
