@@ -3,7 +3,7 @@ const path     = require('path');
 const express  = require('express');
 
 /* Middleware Definitions */
-const logger = require('morgan');
+const httplogger = require('morgan');
 const cookies = require('cookie-parser');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -17,7 +17,7 @@ const models   = require('./models');
 
 module.exports = function (app) {
     /* Configure Middleware */
-    app.use(logger('dev'));
+    app.use(httplogger('dev'));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cookies());
