@@ -1,43 +1,44 @@
 {% extends 'base.twig' %}
 
 {# Add View-Specific Stylesheets #}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}
+  <link rel='stylesheet' href='/stylesheets/signup.css'/>
+{% endblock %}
 
 {# Add View-Specific Scripts #}
 {% block scripts %}{% endblock %}
 
 {# View Body #}
 {% block body %}
-  <div class = "col-form-label card sign-in-card">
-    <form action="/signup" method="post" class = "sign-in-form card-body">
+  <div class = "col-form-label card sign-up-card">
+    <form action="/signup" method="post" class = "card-body">
       <h1 class="h5 text-center mb-4c ard-title">Sign Up</h1>
-
+      <!-- Username Field -->
       <div class="row md-form">
         <i class="fa fa-user-plus prefix grey-text"></i>
         <input type="text" name="username" id="user" class="form-control">
         <label for="user">Username</label>
       </div>
-
+      <!-- Email Field -->
       <div class="row md-form">
         <i class="fa fa-envelope prefix grey-text"></i>
         <input type="text" name="email" id="email" class="form-control">
         <label for="email">Email</label>
       </div>
-
+      <!-- Password Field-->
       <div class="row md-form">
         <i class="fa fa-lock prefix grey-text"></i>
         <input type="password" name="password" id="password" class="form-control">
         <label for="password">Password</label>
       </div>
-
+      <!-- Password Confirm Field -->
       <div class="row md-form">
         <i class="fa fa-unlock prefix grey-text"></i>
         <input type="text" name="password-confirm" id="password-confirm" class="form-control">
         <label for="password-confirm">Confirm Password</label>
       </div>
-
       <div class="text-center">
-        <button class="btn pink">Get Started</button>
+        <button class="btn bg-blue-grey"><i class="fa fa-user-plus"></i> Get Started</button>
       </div>
     </form>
   </div>

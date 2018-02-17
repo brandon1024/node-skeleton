@@ -17,6 +17,7 @@ const login = require('./routes/login');
 const signup = require('./routes/signup');
 const users = require('./routes/users');
 const logout = require('./routes/logout');
+const dashboard = require('./routes/dashboard');
 
 /* App Views and View Engine */
 app.set('views', path.join(__dirname, 'views'));
@@ -46,6 +47,7 @@ app.use('/signup', signup);
 /* Route Handlers Requiring Auth */
 app.use(authenticate);
 app.use('/users', users);
+app.use('/dashboard', dashboard);
 
 /* Implement Error Handler */
 errorHandler(app);

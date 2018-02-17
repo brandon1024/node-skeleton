@@ -4,7 +4,6 @@ const express  = require('express');
 
 /* Middleware Definitions */
 const httplogger = require('morgan');
-const cookies = require('cookie-parser');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const sassMiddleware = require('node-sass-middleware');
@@ -20,8 +19,13 @@ module.exports = function (app) {
     app.use(httplogger('dev'));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(cookies());
-    app.use(session({secret: 'hackthehack', cookie: {}}));
+
+    app.use(session({
+        secret: 'hackthehack',
+        resave: true,
+        saveUninitialized: true
+    }));
+
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(flash());
