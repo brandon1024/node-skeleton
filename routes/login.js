@@ -10,7 +10,15 @@ const passport = require('passport');
 router.get('/', function(req, res, next) {
     res.render('login', {
         title: 'APP TITLE',
-        navbar: {title: 'APP TITLE NAV'}
+        navbar: {
+            title: 'APP TITLE NAV',
+            links: [
+                {title: 'Home', url: '/'},
+                {title: 'Login', url: '/login'},
+                {title: 'Sign Up', url: '/signup'},
+                {title: 'About', url: '/'},
+                {title: 'Help', url: '/'}]
+        }
     });
 });
 

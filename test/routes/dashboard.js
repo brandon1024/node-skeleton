@@ -1,4 +1,4 @@
-describe('Routes Home' , function() {
+describe('Routes Dashboard' , function() {
    describe('GET /api/endpoint', function() {
        /* Add API Tests */
        it('should ...', function(done) {
