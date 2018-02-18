@@ -4,7 +4,10 @@ module.exports = bookshelf.Model.extend({
     hasTimestamps: true
 }, {
     findAll: function(filter, options) {
-        return this.forge().where(filter).fetchAll(options);
+        if(filter)
+            return this.forge().where(filter).fetchAll(options);
+
+        return this.forge().fetchAll(options);
     },
     findOne: function(query, options) {
         return this.forge(query).fetch(options);

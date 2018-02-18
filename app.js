@@ -45,10 +45,10 @@ app.use('/logout', logout);
 app.use('/login', login);
 app.use('/signup', signup);
 
-app.use('/users', users);
 /* Route Handlers Requiring Auth */
 app.use(authenticate);
 app.use('/dashboard', dashboard);
+app.use('/users', users);
 
 /* Implement Error Handler */
 errorHandler(app);

@@ -15,7 +15,7 @@ const User = require('../models/user');
 /* API Endpoints */
 router.get('/', function (req, res, next) {
     User.findAll().then(function (users) {
-        res.send("");
+        res.send(users);
     });
 });
 

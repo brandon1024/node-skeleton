@@ -1,19 +1,18 @@
-/* Definitions */
-const knex = require('knex');
-const bookshelf = require('bookshelf');
+/* Bookshelf Configuration */
 const debug = require('debug')('db-config');
+const knexFile = require('./knexfile.js');
 
-/* TODO: Change Database Name to App Name */
-var dbconfig = {
-    client: 'mysql',
-    connection: {
-        host     : '127.0.0.1',
-        user     : 'root',
-        password : 'password',
-        database : 'ceccompetition',
-        charset  : 'utf8'
-    },
-    debug: false
-};
+/* Determine DB Environment */
+let knexConfig = knexFile.development;
+if(process.env.NODE_ENV === 'production')
+    knexConfig = knexFile.production;
+else if(process.env.NODE_ENV === 'test')
+    knexConfig = knexFile.test;
 
-module.exports = bookshelf(knex(dbconfig));
+debug(`Using environment ${process.env.NODE_ENV}`);
+debug(`Database Configuration: ${knexConfig}`);
+
+const knex = require('knex')(knexConfig);
+const bookshelf = require('bookshelf')(knex);
+
+module.exports = bookshelf;
