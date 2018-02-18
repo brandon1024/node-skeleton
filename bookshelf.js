@@ -4,7 +4,7 @@ const bookshelf = require('bookshelf');
 const debug = require('debug')('db-config');
 
 /* TODO: Change Database Name to App Name */
-var dbconfig = knex({
+var dbconfig = {
     client: 'mysql',
     connection: {
         host     : '127.0.0.1',
@@ -12,7 +12,8 @@ var dbconfig = knex({
         password : 'password',
         database : 'ceccompetition',
         charset  : 'utf8'
-    }
-});
+    },
+    debug: false
+};
 
-module.exports = bookshelf(dbconfig);
+module.exports = bookshelf(knex(dbconfig));
