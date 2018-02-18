@@ -30,7 +30,8 @@ router.get('/', function(req, res, next) {
 
 /* API Endpoints */
 router.post('/', passport.authenticate('signup', {
-    successRedirect: '/chat', failureRedirect: '/signup',
+    successRedirect: '/chat',
+    failureRedirect: '/signup',
     failureFlash: true
 }));
 

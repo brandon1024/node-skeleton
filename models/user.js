@@ -1,6 +1,6 @@
-const Base = require('./base');
+const bookshelf = require('../db/bookshelf');
 
-module.exports = Base.extend({
+module.exports = bookshelf.Model.extend({
     tableName: 'users',
     byUsername: function(username) {
         return this.findOne({username: username});
