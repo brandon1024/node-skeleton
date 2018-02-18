@@ -2,16 +2,14 @@
 const express = require('express');
 const router = express.Router();
 const debug = require('debug')('route-user');
+const User = require('../models/user');
 
 /* Views */
 
 
 /* API Endpoints */
 router.get('/', function (req, res, next) {
-    req.models.user.find().all(function (err, users) {
-        if (err)
-            return next(err);
-
+    User.findAll().then(function (users) {
         res.send(users);
     });
 });

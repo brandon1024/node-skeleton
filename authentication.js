@@ -2,6 +2,7 @@
 const debug = require('debug')('authentication');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const User = require('./models/user');
 
 module.exports = function () {
     /* Create User Strategy */
@@ -12,24 +13,18 @@ module.exports = function () {
             debug('create user with username: ' + username);
 
             process.nextTick(function() {
-                req.models.user.find({'username': username}).one(function(err, user) {
-                    if (err){
-                        debug('signup err: ' + err);
-                        return done(err);
-                    }
-
+                User.byUsername(username).then(function (user) {
                     if (user) {
                         debug('user with username already exists: ' + user);
                         return done(null, false, req.flash('message','User Already Exists'));
                     }
 
-                    req.models.user.create({
+                    User.create({
                         username: username,
                         password: password
-                    }, function (err, user) {
-                        if(err)
-                            throw err;
-
+                    }).then(function () {
+                        return User.byUsername(username);
+                    }).then(function (user) {
                         return done(null, user);
                     });
                 });
@@ -41,15 +36,14 @@ module.exports = function () {
     passport.use('login', new LocalStrategy({
         passReqToCallback: true
     }, function(req, username, password, done) {
-        req.models.user.find({ username: username }).one(function(err, user) {
-            if (err)
-                return done(err);
+        User.byUsername(username).then(function (user) {
+            if (!user) {
+                return done(null, false, {message: 'Incorrect username.'});
+            }
 
-            if (!user)
-                return done(null, false, { message: 'Incorrect username.' });
-
-            if (!user.authenticate(password))
+            if (!user.authenticate(password)) {
                 return done(null, false, { message: 'Incorrect password.' });
+            }
 
             return done(null, user);
         });
