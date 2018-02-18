@@ -8,21 +8,19 @@
   },
   "dependencies": {
     "body-parser": "~1.18.2",
+    "bookshelf": "^0.12.1",
     "connect-flash": "^0.1.1",
     "debug": "~2.6.9",
     "express": "~4.15.5",
     "express-session": "^1.15.6",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.3.1",
-    "lodash": "^4.17.5",
+    "knex": "^0.14.3",
     "mdbootstrap": "^4.4.4",
     "morgan": "~1.9.0",
     "mysql": "^2.15.0",
     "node-sass-middleware": "0.9.8",
-    "orm": "^4.0.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "serve-favicon": "~2.4.5",
     "twig": "~0.10.3"
   },
   "devDependencies": {
