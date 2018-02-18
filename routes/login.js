@@ -5,20 +5,13 @@ const debug = require('debug')('route-login');
 
 /* Retrieve Passport Authentication Service */
 const passport = require('passport');
+const config = require("../config");
 
 /* Views */
 router.get('/', function(req, res, next) {
     res.render('login', {
-        title: 'APP TITLE',
-        navbar: {
-            title: 'APP TITLE NAV',
-            links: [
-                {title: 'Home', url: '/'},
-                {title: 'Login', url: '/login'},
-                {title: 'Sign Up', url: '/signup'},
-                {title: 'About', url: '/'},
-                {title: 'Help', url: '/'}]
-        }
+        title: config.title,
+        navbar: config.navbar
     });
 });
 

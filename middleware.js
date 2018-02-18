@@ -1,6 +1,5 @@
 /* Application */
 const path     = require('path');
-const express  = require('express');
 
 /* Middleware Definitions */
 const httplogger = require('morgan');
@@ -10,9 +9,6 @@ const sassMiddleware = require('node-sass-middleware');
 const flash = require("connect-flash");
 const passport = require('passport');
 const debug = require('debug')('middleware-config');
-
-/* Model Definition */
-const models   = require('./models');
 
 module.exports = function (app) {
     /* Configure Middleware */
@@ -35,16 +31,4 @@ module.exports = function (app) {
         indentedSyntax: true, // true = .sass and false = .scss
         sourceMap: true
     }));
-
-    /* Configure Database */
-    app.use(function (req, res, next) {
-        models(function (err, db) {
-            if (err) return next(err);
-
-            req.models = db.models;
-            req.db     = db;
-
-            return next();
-        });
-    })
 };
