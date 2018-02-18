@@ -7,7 +7,7 @@ const app = express();
 const debug = require('debug')('app');
 
 /* Middleware Services */
-const bookshelf = require('./bookshelf');
+const bookshelf = require('./db/bookshelf');
 const middleware = require('./middleware');
 const authentication = require('./authentication');
 const errorHandler = require('./error-handler');
@@ -45,9 +45,9 @@ app.use('/logout', logout);
 app.use('/login', login);
 app.use('/signup', signup);
 
+app.use('/users', users);
 /* Route Handlers Requiring Auth */
 app.use(authenticate);
-app.use('/users', users);
 app.use('/dashboard', dashboard);
 
 /* Implement Error Handler */

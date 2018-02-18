@@ -1,14 +1,24 @@
 /* Retrieve Router Handler */
 const express = require('express');
-const config = require("../config");
 const router = express.Router();
+
+/* Debugger */
 const debug = require('debug')('route-home');
+
+/* Models */
+
 
 /* Views */
 router.get('/', function(req, res, next) {
     res.render('dashboard', {
-        title: config.title,
-        navbar: config.navbar
+        title: 'APP TITLE - Dashboard',
+        navbar: {
+            title: 'APP TITLE NAV',
+            links: [
+                {title: 'Home', url: '/'},
+                {title: 'About', url: '/'},
+                {title: 'Help', url: '/'}]
+        }
     });
 });
 

@@ -1,4 +1,4 @@
-const bookshelf = require('../bookshelf');
+const bookshelf = require('../db/bookshelf');
 
 module.exports = bookshelf.Model.extend({
     hasTimestamps: true
