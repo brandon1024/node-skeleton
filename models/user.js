@@ -1,18 +1,5 @@
-var Base = require('./base');
-var Book = require('./book');
+const bookshelf = require('bookshelf');
 
-
-
-module.exports = Base.extend({
-    tableName: 'users',
-    books: function () {
-        this.hasMany(Book)
-    },
-    authenticate: function (password) {
-        return this.get('password') === password;
-    }
-}, {
-    byUsername: function(username) {
-        return this.findOne({ username: username });
-    }
+module.exports = bookshelf.Model.extend({
+    tableName: 'users'
 });

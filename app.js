@@ -7,6 +7,7 @@ const app = express();
 const debug = require('debug')('app');
 
 /* Middleware Services */
+const bookshelf = require('./bookshelf');
 const middleware = require('./middleware');
 const authentication = require('./authentication');
 const errorHandler = require('./error-handler');
