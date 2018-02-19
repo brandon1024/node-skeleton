@@ -8,10 +8,6 @@ const debug = require('debug')('route-user');
 /* Models */
 const User = require('../models/user');
 
-/* Request Body Parser */
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
-
 /* bcrypt */
 const bcrypt = require('bcryptjs');
 

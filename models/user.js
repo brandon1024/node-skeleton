@@ -6,20 +6,10 @@ const User =  Bookshelf.Model.extend({
     hasTimestamps: true
 }, {
     findByUsername: function(username) {
-        return this.query()
-            .where({username: username})
-            .select();
+        return this.query({where: {username: username}}).fetch();
     },
     findByEmail: function(email) {
-        return this.query()
-            .where({email: email})
-            .select();
-    },
-    findByUsernameOrEmail: function(usernameOrEmail) {
-        return this.query()
-            .where({username: usernameOrEmail})
-            .orWhere({email: usernameOrEmail})
-            .select();
+        return this.query({where: {email: email}}).fetch();
     }
 });
 

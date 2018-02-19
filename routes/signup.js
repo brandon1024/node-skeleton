@@ -8,6 +8,11 @@ const debug = require('debug')('route-signup');
 module.exports = (app, passport) => {
     /* Views */
     router.get('/', function(req, res, next) {
+        if (req.isAuthenticated()) {
+            res.redirect('/dashboard');
+            return next();
+        }
+
         res.render('signup', {
             title: 'APP TITLE',
             navbar: {

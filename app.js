@@ -14,8 +14,8 @@ app.set('view engine', 'twig');
 
 /* Configure Middleware */
 require('./db/bookshelf');
-require('./authentication')(app, passport);
 require('./middleware')(app);
+require('./authentication')(app, passport);
 
 /* Expose and Serve Static Files */
 app.use('/mdb', express.static(__dirname + '/node_modules/mdbootstrap'));
