@@ -9,6 +9,8 @@ module.exports = {
             database : 'ceccompetitiondev',
             charset  : 'utf8'
         },
+        pool: { min: 2, max: 10 },
+        acquireConnectionTimeout: 10000,
         debug: false,
         migrations: {
             directory: './migrations',
@@ -27,6 +29,8 @@ module.exports = {
                 database : 'ceccompetitiontest',
                 charset  : 'utf8'
         },
+        pool: { min: 2, max: 10 },
+        acquireConnectionTimeout: 10000,
         debug: false,
         migrations: {
             directory: './migrations',
@@ -45,6 +49,8 @@ module.exports = {
             database : 'ceccompetitionprod',
             charset  : 'utf8'
         },
+        pool: { min: 2, max: 10 },
+        acquireConnectionTimeout: 10000,
         debug: false,
         migrations: {
             directory: './migrations',

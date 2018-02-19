@@ -8,7 +8,7 @@ npm install knex -g
 
 ### Creating a new Migration
 ```
-knex migrate:make migration_name
+knex migrate:make migration_name --knexfile db/knexfile.js
 ```
 
 This will create a migrations directory and place a a migration file inside of it.

@@ -1,62 +1,71 @@
 /* Middleware Definitions */
 const debug = require('debug')('authentication');
-const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/user');
+const bcrypt = require('bcryptjs');
 
-module.exports = function () {
-    /* Create User Strategy */
-    passport.use('signup', new LocalStrategy({
-            passReqToCallback : true
-        },
-        function(req, username, password, done) {
-            debug('create user with username: ' + username);
+module.exports = function (app, passport) {
+    const LOCAL_STRATEGY_CONFIG = {
+        usernameField: 'email',
+        passwordField: 'password',
+        session: true,
+        passReqToCallback: true
+    };
 
-            process.nextTick(function() {
-                User.byUsername(username).then(function (user) {
-                    if (user) {
-                        debug('user with username already exists: ' + user);
-                        return done(null, false, req.flash('message','User Already Exists'));
-                    }
+    /* User Login Strategy */
+    passport.use('login', new LocalStrategy(LOCAL_STRATEGY_CONFIG,
+        function(req, usernameOrEmail, password, next) {
+            User.findByUsernameOrEmail(usernameOrEmail).then(function(user) {
+                if(!user)
+                    return next(null, false, req.flash('loginMessage', 'Incorrect username or password.'));
 
-                    User.create({
-                        username: username,
-                        password: password
-                    }).then(function () {
-                        return User.byUsername(username);
-                    }).then(function (user) {
-                        return done(null, user);
-                    });
-                });
+                if(bcrypt.compareSync(password, user.hash))
+                    return next(null, false, req.flash('loginMessage', 'Incorrect username or password.'));
+
+                return next(null, user);
+            }).catch(function(err) {
+                debug(err);
+                return next(err);
             });
         }
     ));
 
-    /* User Authentication Strategy */
-    passport.use('login', new LocalStrategy({
-        passReqToCallback: true
-    }, function(req, username, password, done) {
-        User.byUsername(username).then(function (user) {
-            if (!user) {
-                return done(null, false, {message: 'Incorrect username.'});
-            }
+    /* User Sign Up Strategy */
+    passport.use('signup', new LocalStrategy(LOCAL_STRATEGY_CONFIG,
+        function(req, username, password, next) {
+            if(!req.body.email)
+                return next(new Error('email not specified'));
 
-            if (!user.authenticate(password)) {
-                return done(null, false, { message: 'Incorrect password.' });
-            }
+            /* Salt and Hash Password */
+            let salt = bcrypt.genSaltSync(10);
+            let hash = bcrypt.hashSync(password, salt);
 
-            return done(null, user);
-        });
-    }));
+            User.forge({username: username, email: req.body.email, hash: hash, salt: salt})
+            .save().then(function(model) {
+                return next(null, model.attributes, {});
+            }).catch(function (err) {
+                debug(err);
+                return next(err, null, req.flash('signupMessage', 'Something went wrong.'));
+            });
+        }
+    ));
 
     /* User Serialization */
     passport.serializeUser(function(user, done) {
-        done(null, user);
+        done(null, user.id);
     });
 
     /* User Deserialization */
-    passport.deserializeUser(function(req, user, done) {
-        done(null, user);
+    passport.deserializeUser(function(id, done) {
+        User.where({id: id}).fetch().then(function(user) {
+            done(null, user);
+        }).catch(function(err) {
+            debug(err);
+            done(err, null);
+        });
     });
+
+    app.use(passport.initialize());
+    app.use(passport.session());
 };
 

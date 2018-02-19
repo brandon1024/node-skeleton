@@ -1,14 +1,26 @@
-const bookshelf = require('../db/bookshelf');
+const Bookshelf = require('../db/bookshelf');
 
-module.exports = bookshelf.Model.extend({
+//require('./another_model'); //Uncomment if this model uses another (resolves circular dependencies)
+const User =  Bookshelf.Model.extend({
     tableName: 'users',
-    byUsername: function(username) {
-        return this.findOne({username: username});
+    hasTimestamps: true
+}, {
+    findByUsername: function(username) {
+        return this.query()
+            .where({username: username})
+            .select();
     },
-    byEmail: function(email) {
-        return this.findOne({email: email});
+    findByEmail: function(email) {
+        return this.query()
+            .where({email: email})
+            .select();
     },
-    authenticate: function (password) {
-        return this.get('password') === password;
+    findByUsernameOrEmail: function(usernameOrEmail) {
+        return this.query()
+            .where({username: usernameOrEmail})
+            .orWhere({email: usernameOrEmail})
+            .select();
     }
 });
+
+module.exports = Bookshelf.model('User', User);
