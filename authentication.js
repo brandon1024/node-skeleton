@@ -14,7 +14,7 @@ module.exports = function (app, passport) {
 
     /* User Sign Up Strategy */
     passport.use('signup', new LocalStrategy(LOCAL_STRATEGY_CONFIG,
-        function(req, username, password, next) {
+        function(req, _i1, _i2, next) {
             /* Verify Correct Parameters */
             if(!req.body)
                 return next(new Error('Empty request body'), null, req.flash('signupMessage', 'Bad Request (500).'));
@@ -27,8 +27,8 @@ module.exports = function (app, passport) {
             if(!req.body['password-confirm'])
                 return next(new Error('Empty or missing password confirm'), null, req.flash('signupMessage', 'Missing password confirm field.'));
 
-            username = req.body['username'];
-            password = req.body['password'];
+            let username = req.body['username'];
+            let password = req.body['password'];
             let email = req.body['email'];
             let passwordconfirm = req.body['password-confirm'];
 

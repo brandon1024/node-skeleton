@@ -5,6 +5,8 @@ const User =  Bookshelf.Model.extend({
     tableName: 'users',
     hasTimestamps: true
 }, {
+    ROLE_USER: 'user',
+    ROLE_ADMIN: 'admin',
     findByUsername: function(username) {
         return this.query({where: {username: username}}).fetch();
     },
