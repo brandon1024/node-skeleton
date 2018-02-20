@@ -1,19 +1,32 @@
 /* Retrieve Router Handler */
 const express = require('express');
-const config = require("../config");
 const router = express.Router();
+
+/* Debugger */
 const debug = require('debug')('route-index');
 
-/* Views */
-router.get('/', function(req, res, next) {
-    res.render('index', {
-        title: config.title,
-        navbar: config.navbar
+module.exports = (app, passport) => {
+    /* Views */
+    router.get('/', function(req, res, next) {
+        res.render('index', {
+            title: 'APP TITLE',
+            navbar: {
+                title: 'APP TITLE NAV',
+                links: [
+                    {title: 'Home', url: '/'},
+                    {title: 'Login', url: '/login'},
+                    {title: 'Sign Up', url: '/signup'},
+                    {title: 'About', url: '/'},
+                    {title: 'Help', url: '/'}]
+            },
+            authenticated: req.isAuthenticated()
+        });
     });
-});
 
 
-/* API Endpoints */
+    /* API Endpoints */
 
+    /* Register Router */
+    app.use('/', router);
+};
 
-module.exports = router;

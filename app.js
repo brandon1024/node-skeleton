@@ -5,51 +5,31 @@ const app = express();
 
 /* Middleware Definitions */
 const debug = require('debug')('app');
+const passport = require('passport');
 
-/* Middleware Services */
-const middleware = require('./middleware');
-const authentication = require('./authentication');
-const errorHandler = require('./error-handler');
-
-/* Route Definitions */
-const index = require('./routes/index');
-const login = require('./routes/login');
-const signup = require('./routes/signup');
-const users = require('./routes/users');
-const logout = require('./routes/logout');
-const dashboard = require('./routes/dashboard');
 
 /* App Views and View Engine */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
 
 /* Configure Middleware */
-middleware(app);
-authentication();
+require('./db/bookshelf');
+require('./middleware')(app);
+require('./authentication')(app, passport);
 
 /* Expose and Serve Static Files */
 app.use('/mdb', express.static(__dirname + '/node_modules/mdbootstrap'));
 app.use('/', express.static(__dirname + '/public'));
 
-function authenticate(req, res, next) {
-    if (req.isAuthenticated())
-        return next();
-
-    res.redirect('/login')
-}
-
-/* Route Handlers Not Requiring Auth */
-app.use('/', index);
-app.use('/logout', logout);
-app.use('/login', login);
-app.use('/signup', signup);
-
-/* Route Handlers Requiring Auth */
-app.use(authenticate);
-app.use('/users', users);
-app.use('/dashboard', dashboard);
+/* Configure Route Handlers */
+require('./routes/index')(app, passport);
+require('./routes/login')(app, passport);
+require('./routes/signup')(app, passport);
+require('./routes/users')(app, passport);
+require('./routes/logout')(app, passport);
+require('./routes/dashboard')(app, passport);
 
 /* Implement Error Handler */
-errorHandler(app);
+require('./error-handler')(app);
 
 module.exports = app;

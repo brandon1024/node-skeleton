@@ -1,18 +1,18 @@
-var Base = require('./base');
-var Book = require('./book');
+const Bookshelf = require('../db/bookshelf');
 
-
-
-module.exports = Base.extend({
+//require('./another_model'); //Uncomment if this model uses another (resolves circular dependencies)
+const User =  Bookshelf.Model.extend({
     tableName: 'users',
-    books: function () {
-        this.hasMany(Book)
-    },
-    authenticate: function (password) {
-        return this.get('password') === password;
-    }
+    hasTimestamps: true
 }, {
-    byUsername: function(username) {
-        return this.findOne({ username: username });
+    ROLE_USER: 'user',
+    ROLE_ADMIN: 'admin',
+    findByUsername: function(username) {
+        return this.query({where: {username: username}}).fetch();
+    },
+    findByEmail: function(email) {
+        return this.query({where: {email: email}}).fetch();
     }
 });
+
+module.exports = Bookshelf.model('User', User);

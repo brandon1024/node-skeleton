@@ -1,14 +1,19 @@
 /* Retrieve Router Handler */
 const express = require('express');
 const router = express.Router();
+
+/* Debugger */
 const debug = require('debug')('route-logout');
 
-/* Views */
+module.exports = (app, passport) => {
+    /* Views */
 
-/* API Endpoints */
-router.get('/logout', function(req, res){
-    req.logout();
-    res.redirect('/');
-});
+    /* API Endpoints */
+    router.get('/', function(req, res){
+        req.logout();
+        res.redirect('/');
+    });
 
-module.exports = router;
+    /* Register Router */
+    app.use('/logout', router);
+};

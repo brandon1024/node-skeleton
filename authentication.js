@@ -1,62 +1,95 @@
 /* Middleware Definitions */
 const debug = require('debug')('authentication');
-const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/user');
+const bcrypt = require('bcryptjs');
 
-module.exports = function () {
-    /* Create User Strategy */
-    passport.use('signup', new LocalStrategy({
-            passReqToCallback : true
-        },
-        function(req, username, password, done) {
-            debug('create user with username: ' + username);
+module.exports = function (app, passport) {
+    const LOCAL_STRATEGY_CONFIG = {
+        usernameField: 'username',
+        passwordField: 'password',
+        session: true,
+        passReqToCallback: true
+    };
 
-            process.nextTick(function() {
-                User.byUsername(username).then(function (user) {
-                    if (user) {
-                        debug('user with username already exists: ' + user);
-                        return done(null, false, req.flash('message','User Already Exists'));
-                    }
+    /* User Sign Up Strategy */
+    passport.use('signup', new LocalStrategy(LOCAL_STRATEGY_CONFIG,
+        function(req, _i1, _i2, next) {
+            /* Verify Correct Parameters */
+            if(!req.body)
+                return next(null, null, {message: 'Bad Request (500).'});
+            if(!req.body['username'])
+                return next(null, null, {message: 'Missing username field.'});
+            if(!req.body['email'])
+                return next(null, null, {message: 'Missing email field.'});
+            if(!req.body['password'])
+                return next(null, null, {message: 'Missing password field.'});
+            if(!req.body['password-confirm'])
+                return next(null, null, {message: 'Missing password confirm field.'});
 
-                    User.create({
-                        username: username,
-                        password: password
-                    }).then(function () {
-                        return User.byUsername(username);
-                    }).then(function (user) {
-                        return done(null, user);
-                    });
+            let username = req.body['username'];
+            let password = req.body['password'];
+            let email = req.body['email'];
+            let passwordconfirm = req.body['password-confirm'];
+
+            if(password !== passwordconfirm)
+                return next(null, null, {message: 'Passwords don\'t match.'});
+
+            User.query({where: {username: username}, orWhere: {email: email}}).fetch().then(function(user) {
+                if(user)
+                    return next(null, null, {message: 'That username or email address is taken.'});
+
+                /* Salt and Hash Password */
+                let salt = bcrypt.genSaltSync(10);
+                let hash = bcrypt.hashSync(password, salt);
+
+                return User.forge({username: username, email: email, hash: hash, salt: salt})
+                .save().then(function(model) {
+                    return next(null, model.attributes, {});
+                }).catch(function (err) {
+                    debug(err);
+                    return next(err);
                 });
+            }).catch(function(err) {
+                return next(err);
             });
         }
     ));
 
-    /* User Authentication Strategy */
-    passport.use('login', new LocalStrategy({
-        passReqToCallback: true
-    }, function(req, username, password, done) {
-        User.byUsername(username).then(function (user) {
-            if (!user) {
-                return done(null, false, {message: 'Incorrect username.'});
-            }
+    /* User Login Strategy */
+    passport.use('login', new LocalStrategy(LOCAL_STRATEGY_CONFIG,
+        function(req, username, password, next) {
+            User.findByUsername(username).then(function(user) {
+                if(!user)
+                    return next(null, null, {message: 'Incorrect username or password.'});
 
-            if (!user.authenticate(password)) {
-                return done(null, false, { message: 'Incorrect password.' });
-            }
+                if(!bcrypt.compareSync(password, user.attributes.hash))
+                    return next(null, null, {message: 'Incorrect username or password.'});
 
-            return done(null, user);
-        });
-    }));
+                return next(null, user, {});
+            }).catch(function(err) {
+                debug(err);
+                return next(err);
+            });
+        }
+    ));
 
     /* User Serialization */
     passport.serializeUser(function(user, done) {
-        done(null, user);
+        done(null, user.id);
     });
 
     /* User Deserialization */
-    passport.deserializeUser(function(req, user, done) {
-        done(null, user);
+    passport.deserializeUser(function(id, done) {
+        User.where({id: id}).fetch().then(function(user) {
+            done(null, user);
+        }).catch(function(err) {
+            debug(err);
+            done(err, null);
+        });
     });
+
+    app.use(passport.initialize());
+    app.use(passport.session());
 };
 

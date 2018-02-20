@@ -14,7 +14,7 @@ module.exports = function (app) {
     /* Configure Middleware */
     app.use(httplogger('dev'));
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.urlencoded({ extended: true }));
 
     app.use(session({
         secret: 'hackthehack',

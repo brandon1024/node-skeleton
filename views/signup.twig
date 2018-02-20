@@ -10,7 +10,14 @@
 
 {# View Body #}
 {% block body %}
-  <div class = "col-form-label card sign-up-card">
+  <div class="col-form-label card sign-up-card pt-0">
+    {% if error %}
+      <div class="card red text-center z-depth-2">
+        <div class="card-body">
+          <p class="white-text mb-0">{{ error }}</p>
+        </div>
+      </div>
+    {% endif %}
     <form action="/signup" method="post" class = "card-body">
       <h1 class="h5 text-center mb-4c ard-title">Sign Up</h1>
       <!-- Username Field -->
@@ -34,7 +41,7 @@
       <!-- Password Confirm Field -->
       <div class="row md-form">
         <i class="fa fa-unlock prefix grey-text"></i>
-        <input type="text" name="password-confirm" id="password-confirm" class="form-control">
+        <input type="password" name="password-confirm" id="password-confirm" class="form-control">
         <label for="password-confirm">Confirm Password</label>
       </div>
       <div class="text-center">
