@@ -10,7 +10,14 @@
 
 {# View Body #}
 {% block body %}
-  <div class = "card sign-in-card">
+  <div class = "card sign-in-card pt-0">
+    {% if error %}
+      <div class="card red text-center z-depth-2">
+        <div class="card-body">
+          <p class="white-text mb-0">{{ error }}</p>
+        </div>
+      </div>
+    {% endif %}
     <form action="/login" method="post" class = "card-body">
       <h1 class="h5 text-center mb-4c card-title">Sign In</h1>
 

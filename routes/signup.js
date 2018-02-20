@@ -14,6 +14,7 @@ module.exports = (app, passport) => {
         }
 
         res.render('signup', {
+            error: req.flash('error'),
             title: 'APP TITLE',
             navbar: {
                 title: 'APP TITLE NAV',
