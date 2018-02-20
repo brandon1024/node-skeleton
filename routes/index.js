@@ -18,7 +18,8 @@ module.exports = (app, passport) => {
                     {title: 'Sign Up', url: '/signup'},
                     {title: 'About', url: '/'},
                     {title: 'Help', url: '/'}]
-            }
+            },
+            authenticated: req.isAuthenticated()
         });
     });
 
