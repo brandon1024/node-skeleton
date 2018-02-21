@@ -13,13 +13,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
 
 /* Configure Middleware */
-require('./db/bookshelf');
-require('./middleware')(app);
-require('./authentication')(app, passport);
+require('./config/db/bookshelf');
+require('./config/middleware')(app);
+require('./config/authentication')(app, passport);
 
 /* Expose and Serve Static Files */
-app.use('/mdb', express.static(__dirname + '/node_modules/mdbootstrap'));
-app.use('/', express.static(__dirname + '/public'));
+app.use('/mdb', express.static(path.join(__dirname, 'node_modules', 'mdbootstrap')));
+app.use('/', express.static(path.join(__dirname, 'public')));
 
 /* Configure Route Handlers */
 require('./routes/index')(app, passport);
@@ -30,6 +30,6 @@ require('./routes/logout')(app, passport);
 require('./routes/dashboard')(app, passport);
 
 /* Implement Error Handler */
-require('./error-handler')(app);
+require('./config/error-handler')(app);
 
 module.exports = app;

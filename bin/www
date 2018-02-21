@@ -1,37 +1,54 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-var app = require('../app');
-var debug = require('debug')('cechackathon:server');
-var http = require('http');
+/* Module Dependencies */
+const app = require('../app');
+const debug = require('debug')('cechackathon:server');
+const https = require('https');
+const http = require('http');
+const fileSystem = require('fs');
 
-/**
- * Get port from environment and store in Express.
- */
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+/* Get ports from environment and store in Express */
+const HTTPport = normalizePort(process.env.HTTP_PORT || '3000');
+const HTTPSport = normalizePort(process.env.HTTPS_PORT || '9443');
+app.set('HTTP_PORT', HTTPport);
+app.set('HTTP_PORT', HTTPSport);
 
-/**
- * Create HTTP server.
- */
-var server = http.createServer(app);
+/* Create HTTPS Service */
+const serverConfig = {
+    key: fileSystem.readFileSync('config/cert/client-key.pem'),
+    cert: fileSystem.readFileSync('config/cert/client-cert.pem')
+};
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-server.listen(port);
+/* Create HTTP and HTTPS Servers */
+const httpServer = http.createServer(app).listen(HTTPport);
+const httpsServer = https.createServer(serverConfig, app).listen(HTTPSport);
 
-server.on('error', onError);
-server.on('listening', onListening);
-console.log('Listening on port ' + port);
+httpServer.on('error', onError);
+httpsServer.on('error', onError);
 
-/**
- * Normalize a port into a number, string, or false.
- */
+httpServer.on('listening', () => {
+    let addr = httpServer.address();
+    let bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
+});
+
+httpsServer.on('listening', () => {
+    let addr = httpServer.address();
+    let bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
+});
+
+console.log('HTTP Listening on port ' + HTTPport);
+console.log('HTTPS Listening on port ' + HTTPSport);
+
+
+/* Normalize a port into a number, string, or false */
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  let port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -46,16 +63,13 @@ function normalizePort(val) {
   return false;
 }
 
-/**
- * Event listener for HTTP server "error" event.
- */
-
+/* Event listener for HTTP server "error" event */
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-  var bind = typeof port === 'string'
+  let bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
 
@@ -72,16 +86,4 @@ function onError(error) {
     default:
       throw error;
   }
-}
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
 }
