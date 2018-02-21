@@ -1,8 +1,8 @@
 # Setup Application for Development
-This walkthrough assumes you have Node.js installed locally. If this is not the case, you can install it [here](https://nodejs.org/en/).
+This walkthrough assumes you have Node.js installed locally. If this is not the case, you can install it [here](https://nodejs.org/en/). You will also need to install the [WebStorm IDE from JetBrains](https://www.jetbrains.com/webstorm/download/#section=windows).
 
 ## Environment Setup
-First, you'll need to checkout a copy of the repository on your local machine. Clone the repository into your WebStorm folder and checkout the master branch (should do so by default).
+First, you'll need to checkout a copy of the repository on your local machine. Clone the repository into your WebStorm folder and checkout the master branch (should do so by default). Once complete, you can import the project into WebStorm by selecting `Open Project` and selecting the `node-skeleton` directory.
 
 ```
 git clone https://github.com/brandon1024/node-skeleton.git
@@ -66,6 +66,10 @@ For more details on database migrations, see the migrations.md document.
 
 ## IDE Configurationn and Run Configurations
 First and foremost, you will need to configure the project codestyle settings. These settings are already configured in the repository `.idea` folder, but you will need to ensure you are using the project settings and not the system settings. To do this, navigate to the WebStorm preferences window, select `Editor`, then select the `Code Style` top level node. In the `Scheme` dropdown, select `Project`.
+
+To configure your IDE for Node.js development, you will need to change a couple preferences. In the preferences window, select `Languages & Frameworks`, then select JavaScript. Change the language version to `ECMAScript 6`.
+
+Next, select `Node.js and NPM` from `Languages & Frameworks` and enable `Node.js core library`.
 
 Lastly, you will need to add run configurations. This allows you to easily run, stop, and restart the app server. In the IDE toolbar, select the dropdown menu and select `Edit Run Configurations...`. In this window, we will create three configurations.
 - `Run Server Development` Configuration
