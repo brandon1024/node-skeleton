@@ -1,4 +1,4 @@
-const Bookshelf = require('../db/bookshelf');
+const Bookshelf = require('../config/db/bookshelf');
 
 //require('./another_model'); //Uncomment if this model uses another (resolves circular dependencies)
 const User =  Bookshelf.Model.extend({

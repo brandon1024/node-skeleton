@@ -15,8 +15,8 @@ app.set('HTTP_PORT', HTTPSport);
 
 /* Create HTTPS Service */
 const serverConfig = {
-    key: fileSystem.readFileSync('cert/client-key.pem'),
-    cert: fileSystem.readFileSync('cert/client-cert.pem')
+    key: fileSystem.readFileSync('config/cert/client-key.pem'),
+    cert: fileSystem.readFileSync('config/cert/client-cert.pem')
 };
 
 /* Create HTTP and HTTPS Servers */
