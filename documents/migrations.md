@@ -22,7 +22,7 @@ knex migrate:latest --env development --knexfile db/knexfile.js
 knex migrate:latest --env test --knexfile db/knexfile.js
 knex migrate:latest --env production --knexfile db/knexfile.js
 ```
-
+*knex migrate:latest will run all unrun migrations*
 ### Rollback a Migration
 To rollback all migrations, run the following:
 ```
