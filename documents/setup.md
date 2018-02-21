@@ -1,6 +1,8 @@
 # Setup Application for Development
 This walkthrough assumes you have Node.js installed locally. If this is not the case, you can install it [here](https://nodejs.org/en/). You will also need to install the [WebStorm IDE from JetBrains](https://www.jetbrains.com/webstorm/download/#section=windows).
 
+This walkthrough also assumes you are developing on a Unix-based system.
+
 ## Environment Setup
 First, you'll need to checkout a copy of the repository on your local machine. Clone the repository into your WebStorm folder and checkout the master branch (should do so by default). Once complete, you can import the project into WebStorm by selecting `Open Project` and selecting the `node-skeleton` directory.
 
@@ -71,7 +73,7 @@ To configure your IDE for Node.js development, you will need to change a couple 
 
 Next, select `Node.js and NPM` from `Languages & Frameworks` and enable `Node.js core library`.
 
-Lastly, you will need to add run configurations. This allows you to easily run, stop, and restart the app server. In the IDE toolbar, select the dropdown menu and select `Edit Run Configurations...`. In this window, we will create three configurations.
+Lastly, you will need to add run configurations. This allows you to easily run, stop, and restart the app server. In the IDE toolbar, select the dropdown menu and select `Edit Run Configurations...`. In this window, you will create three configurations.
 - `Run Server Development` Configuration
      - Create a new run configuration by pressing the `+` icon in the top left corner.
      - From the menu, select `Node.js`
@@ -108,15 +110,20 @@ Note: Setting the `DEBUG` environment variable will display debug information to
 ## Running the Server
 To ensure your environment is setup correctly, run the `Run Server Development` configuration. Navigate to `http://localhost:3000` and `https://localhost:9443` to verify the server is running corretly.
 
-## Generate Certificates
+## Generate Self-Signed Certificates
+Note: For use in a production environment, you should have certificates signed by a third party certificate authority (CA). For development, self-signed certificates are sufficient. See [Let's Encrypt](https://letsencrypt.org/).
+
 This step is optional (but recommended), and mandatory if deploying the app to the public.
 
 Server and client certificates are stored under `config/cert/`. Default certificates exist in this folder, but they are not secure for use in a production environment. You will need to create new secure certifications. To do this, in terminal, first navigate to the project working directory, and follow these steps.
 
 ```
+rm config/client-key.pem config/client.csr config/client-cert.pem
 openssl genrsa -out config/client-key.pem 2048
 openssl req -new -key config/client-key.pem -out config/client.csr
 openssl x509 -req -in config/client.csr -signkey config/client-key.pem -out config/client-cert.pem
 ```
 
 You will be asked to enter your information. Most fields are optional, but it is good practice to enter valid information.
+
+When navigating to `https://localhost:9443`, you will be prompted with a warning that the server certificate is not trusted. This is because the certificate generated is self signed, and not signed by a third party certificate authority. For development, you can manually install the certificate as a trusted certificate, which will hide the trust warning. To do this, search [install certificate locally trusted](https://www.google.com/search?q=install+certificate+locally+trusted) and locate the appropriate steps for your environment.
