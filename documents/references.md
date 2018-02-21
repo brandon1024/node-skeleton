@@ -5,7 +5,7 @@ This is a JavaScript library which renders markdown HTML from a markdown file. T
 ## MDBootstrap
 Material Design Bootstrap is a CSS framework which combines (Twitter) bootstrap and (Google) material design. We use their components and grid system to implement our website.
 
-Material design is dependant on bootstrap, tether, jQuery and popper and are not our direct dependencies with the exclusion of jQuery.
+Material design is dependant on bootstrap, tether, jQuery and popper and are not our direct dependencies.
 
 ## JQuery
 JQuery is used for html selectors and ajax calls.
