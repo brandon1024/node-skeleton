@@ -20,6 +20,7 @@ require('./authentication')(app, passport);
 /* Expose and Serve Static Files */
 app.use('/mdb', express.static(__dirname + '/node_modules/mdbootstrap'));
 app.use('/', express.static(__dirname + '/public'));
+app.use('/favicon.ico', express.static('/public/images/favicon.ico'));
 
 /* Configure Route Handlers */
 require('./routes/index')(app, passport);

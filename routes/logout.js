@@ -11,7 +11,7 @@ module.exports = (app, passport) => {
     /* API Endpoints */
     router.get('/', function(req, res){
         req.logout();
-        res.redirect('/');
+        res.redirect('/login');
     });
 
     /* Register Router */
