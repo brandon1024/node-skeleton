@@ -81,7 +81,7 @@ module.exports = function (app, passport) {
 
     /* User Deserialization */
     passport.deserializeUser(function(id, done) {
-        User.where({id: id}).fetch().then(function(user) {
+        User.byId(id).then(function(user) {
             done(null, user);
         }).catch(function(err) {
             debug(err);
