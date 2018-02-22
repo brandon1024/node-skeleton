@@ -109,7 +109,7 @@ module.exports = (app, passport) => {
         else if(!role)
             role = User.ROLE_USER;
 
-        User.query({where: {id: id}}).fetch().then(function(user) {
+        User.byId(id).fetch().then(function(user) {
             if(!user)
                 return res.sendStatus(400);
 

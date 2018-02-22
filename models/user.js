@@ -12,6 +12,9 @@ const User =  Bookshelf.Model.extend({
     },
     findByEmail: function(email) {
         return this.query({where: {email: email}}).fetch();
+    },
+    byId: function (id) {
+        return this.query({where: {id: id}}).fetch();
     }
 });
 

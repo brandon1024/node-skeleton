@@ -22,8 +22,6 @@ module.exports = function (app) {
         saveUninitialized: true
     }));
 
-    app.use(passport.initialize());
-    app.use(passport.session());
     app.use(flash());
     app.use(sassMiddleware({
         src: path.join(__dirname, '..', 'public'),
