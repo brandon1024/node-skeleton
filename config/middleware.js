@@ -26,9 +26,9 @@ module.exports = function (app) {
     app.use(passport.session());
     app.use(flash());
     app.use(sassMiddleware({
-        src: path.join(__dirname, 'public'),
-        dest: path.join(__dirname, 'public'),
-        indentedSyntax: true, // true = .sass and false = .scss
+        src: path.join(__dirname, '..', 'public'),
+        dest: path.join(__dirname, '..', 'public'),
+        indentedSyntax: true,
         sourceMap: true
     }));
 };
