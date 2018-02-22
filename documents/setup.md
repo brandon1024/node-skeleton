@@ -82,26 +82,29 @@ Lastly, you will need to add run configurations. This allows you to easily run, 
           - Node Interpreter: Project node (/usr/local/bin/node)
           - Node Parameters: /usr/local/bin/nodemon
           - Working Directory: (use default here)
+          - JavaScript File:
           - Application Parameters: -e js,twig,sass,json node-skeleton
           - Environment Variables: DEBUG=*;NODE_ENV=development;HTTP_PORT=3000;HTTPS_PORT=9443
 - `Run Server Test` Configuration
      - Create a new run configuration by pressing the `+` icon in the top left corner.
      - From the menu, select `Node.js`
      - Enter the following details:
-          - Name: Run Server Development
+          - Name: Run Server Test
           - Node Interpreter: Project node (/usr/local/bin/node)
           - Node Parameters: test
           - Working Directory: (use default here)
+          - JavaScript File:
           - Application Parameters:
           - Environment Variables: DEBUG=*;NODE_ENV=test;HTTP_PORT=3000;HTTPS_PORT=9443
 - `Run Server Deployment` Configuration
      - Create a new run configuration by pressing the `+` icon in the top left corner.
      - From the menu, select `Node.js`
      - Enter the following details:
-          - Name: Run Server Development
+          - Name: Run Server Deployment
           - Node Interpreter: Project node (/usr/local/bin/node)
           - Node Parameters:
           - Working Directory: (use default here)
+          - JavaScript File: bin/www
           - Application Parameters:
           - Environment Variables: NODE_ENV=development;HTTP_PORT=3000;HTTPS_PORT=9443
 
