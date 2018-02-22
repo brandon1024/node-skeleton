@@ -18,9 +18,9 @@ Each migration is expecting two functions on its API, up and down. `up` is calle
 ### Running Migrations
 To run a newly created migration, run the following:
 ```
-knex migrate:latest --env development --knexfile db/knexfile.js
-knex migrate:latest --env test --knexfile db/knexfile.js
-knex migrate:latest --env production --knexfile db/knexfile.js
+knex migrate:latest --env development --knexfile config/db/knexfile.js
+knex migrate:latest --env test --knexfile config/db/knexfile.js
+knex migrate:latest --env production --knexfile config/db/knexfile.js
 ```
 *knex migrate:latest will run all unrun migrations*
 ### Rollback a Migration
