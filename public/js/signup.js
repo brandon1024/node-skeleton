@@ -12,3 +12,9 @@ function validateForm() {
 
     return true;
 }
+
+document.getElementById('password-confirm').addEventListener('change', function(event) {
+    var targetElement = event.target || event.srcElement;
+    if(!targetElement.value)
+        targetElement.classList.remove('invalid');
+});
