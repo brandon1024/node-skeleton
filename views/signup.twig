@@ -6,7 +6,9 @@
 {% endblock %}
 
 {# Add View-Specific Scripts #}
-{% block scripts %}{% endblock %}
+{% block scripts %}
+  <script type='text/javascript' src='/js/signup.js'></script>
+{% endblock %}
 
 {# View Body #}
 {% block body %}
@@ -18,34 +20,39 @@
         </div>
       </div>
     {% endif %}
-    <form action="/signup" method="post" class = "card-body">
+    <form action="/signup" onsubmit="return validateForm()" method="post" class="card-body">
       <h1 class="h5 text-center mb-4c ard-title">Sign Up</h1>
       <!-- Username Field -->
       <div class="row md-form">
         <i class="fa fa-user-plus prefix grey-text"></i>
-        <input type="text" name="username" id="user" class="form-control">
-        <label for="user">Username</label>
+        <input type="text" name="username" id="username" class="form-control" required>
+        <label for="username">Username</label>
       </div>
       <!-- Email Field -->
       <div class="row md-form">
         <i class="fa fa-envelope prefix grey-text"></i>
-        <input type="text" name="email" id="email" class="form-control">
+        <input type="text" name="email" id="email" class="form-control" required>
         <label for="email">Email</label>
       </div>
       <!-- Password Field-->
       <div class="row md-form">
         <i class="fa fa-lock prefix grey-text"></i>
-        <input type="password" name="password" id="password" class="form-control">
-        <label for="password">Password</label>
+        <input type="password" name="password" id="password" class="form-control" required>
+        <label id="password-label" for="password">Password</label>
       </div>
       <!-- Password Confirm Field -->
       <div class="row md-form">
         <i class="fa fa-unlock prefix grey-text"></i>
-        <input type="password" name="password-confirm" id="password-confirm" class="form-control">
-        <label for="password-confirm">Confirm Password</label>
+        <input type="password" name="password-confirm" id="password-confirm" class="form-control" required>
+        <label class="label-validation" for="password-confirm" data-error="Passwords do not match." data-success="Passwords math.">Confirm Password</label>
       </div>
       <div class="text-center">
         <button class="btn bg-blue-grey"><i class="fa fa-user-plus"></i> Get Started</button>
+      </div>
+      <div class="modal-footer border-0">
+        <div class="options font-weight-light">
+          <p class="m-0">Already a member? <a href="/login">Sign Up</a></p>
+        </div>
       </div>
     </form>
   </div>
