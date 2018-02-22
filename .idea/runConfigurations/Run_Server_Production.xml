@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Server Production" type="NodeJSConfigurationType" factoryName="Node.js" path-to-js-file="bin/www" working-dir="$PROJECT_DIR$">
+    <envs>
+      <env name="NODE_ENV" value="production" />
+      <env name="HTTP_PORT" value="3000" />
+      <env name="HTTPS_PORT" value="9443" />
+    </envs>
+    <method />
+  </configuration>
+</component>

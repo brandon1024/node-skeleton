@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Server Development" type="NodeJSConfigurationType" factoryName="Node.js" application-parameters="-e js,twig,sass,json bin/www" node-parameters="/usr/local/bin/nodemon" working-dir="$PROJECT_DIR$">
+    <envs>
+      <env name="DEBUG" value="*" />
+      <env name="NODE_ENV" value="development" />
+      <env name="HTTP_PORT" value="3000" />
+      <env name="HTTPS_PORT" value="9443" />
+    </envs>
+    <method />
+  </configuration>
+</component>
