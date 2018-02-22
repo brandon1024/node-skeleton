@@ -96,17 +96,17 @@ Lastly, you will need to add run configurations. This allows you to easily run, 
           - JavaScript File:
           - Application Parameters:
           - Environment Variables: DEBUG=*;NODE_ENV=test;HTTP_PORT=3000;HTTPS_PORT=9443
-- `Run Server Deployment` Configuration
+- `Run Server Production` Configuration
      - Create a new run configuration by pressing the `+` icon in the top left corner.
      - From the menu, select `Node.js`
      - Enter the following details:
-          - Name: Run Server Deployment
+          - Name: Run Server Production
           - Node Interpreter: Project node (/usr/local/bin/node)
           - Node Parameters:
           - Working Directory: (use default here)
           - JavaScript File: bin/www
           - Application Parameters:
-          - Environment Variables: NODE_ENV=development;HTTP_PORT=3000;HTTPS_PORT=9443
+          - Environment Variables: NODE_ENV=production;HTTP_PORT=3000;HTTPS_PORT=9443
 
 Note: Setting the `DEBUG` environment variable will display debug information to the console using the `debug` middleware. This is useful for finding the cause of errors, but can be make debugging certain things difficult. It is recommended that you create a fourth run configuration titled `Run Server Development DEBUG OFF` with the same configuration as `Run Server Development`, but remove the `DEBUG` environment variable. You can also use this configuration to simulate a production-like environment.
 

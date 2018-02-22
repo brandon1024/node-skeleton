@@ -19,7 +19,8 @@ module.exports = function (app) {
     app.use(session({
         secret: 'hackthehack',
         resave: true,
-        saveUninitialized: true
+        saveUninitialized: false,
+        maxAge: 86400000
     }));
 
     app.use(flash());
