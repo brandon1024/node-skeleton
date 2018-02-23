@@ -16,7 +16,7 @@ else if(!['development', 'test', 'production'].includes(process.env.NODE_ENV)) {
 }
 
 /* Configure HTTP Sever if Not ENFORCE_HTTPS*/
-if(!process.env.ENFORCE_HTTPS) {
+if(process.env.ENFORCE_HTTPS !== 'true') {
     const HTTPport = normalizePort(process.env.HTTP_PORT || '80');
     const httpServer = http.createServer(app).listen(HTTPport);
     httpServer.on('error', onError);
@@ -38,9 +38,8 @@ const serverConfig = {
 };
 const httpsServer = https.createServer(serverConfig, app).listen(HTTPSport);
 httpsServer.on('error', onError);
-
 httpsServer.on('listening', () => {
-    let addr = httpServer.address();
+    let addr = httpsServer.address();
     let bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;
