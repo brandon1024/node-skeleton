@@ -34,7 +34,7 @@ module.exports = (app, passport) => {
     router.post('/', passport.authenticate('login', {
         successRedirect: '/dashboard',
         failureRedirect: '/login',
-        failureFlash: true
+        failureFlash: 'Incorrect username or password.'
     }));
 
     /* Register Router */

@@ -25,33 +25,33 @@
       <!-- Username Field -->
       <div class="row md-form">
         <i class="fa fa-user-plus prefix grey-text"></i>
-        <input type="text" name="username" id="username" class="form-control" required>
-        <label for="username">Username</label>
+        <input type="text" name="username" id="username" class="form-control" maxLength="32" required>
+        <label class="label-validation" for="username" data-error="Username must be between 6 and 32 characters long." data-success="Username good.">Username</label>
       </div>
       <!-- Email Field -->
       <div class="row md-form">
         <i class="fa fa-envelope prefix grey-text"></i>
-        <input type="text" name="email" id="email" class="form-control" required>
-        <label for="email">Email</label>
+        <input type="email" name="email" id="email" class="form-control" maxLength="255" required>
+        <label class="label-validation" for="email" data-error="Email must be no more than 255 characters long." data-success="Email good.">Email</label>
       </div>
       <!-- Password Field-->
       <div class="row md-form">
         <i class="fa fa-lock prefix grey-text"></i>
-        <input type="password" name="password" id="password" class="form-control" required>
-        <label id="password-label" for="password">Password</label>
+        <input type="password" name="password" id="password" class="form-control" maxLength="64" required>
+        <label class="label-validation" id="password-label" for="password" data-error="Password must be between 6 and 64 characters long." data-success="Password good.">Password</label>
       </div>
       <!-- Password Confirm Field -->
       <div class="row md-form">
         <i class="fa fa-unlock prefix grey-text"></i>
-        <input type="password" name="password-confirm" id="password-confirm" class="form-control" required>
-        <label class="label-validation" for="password-confirm" data-error="Passwords do not match." data-success="Passwords math.">Confirm Password</label>
+        <input type="password" name="password-confirm" id="password-confirm" class="form-control" maxLength="64" required>
+        <label class="label-validation" for="password-confirm" data-error="Passwords do not match." data-success="Passwords match.">Confirm Password</label>
       </div>
       <div class="text-center">
         <button class="btn bg-blue-grey"><i class="fa fa-user-plus"></i> Get Started</button>
       </div>
       <div class="modal-footer border-0">
         <div class="options font-weight-light">
-          <p class="m-0">Already a member? <a href="/login">Sign Up</a></p>
+          <p class="m-0">Already a member? <a href="/login">Sign In</a></p>
         </div>
       </div>
     </form>
