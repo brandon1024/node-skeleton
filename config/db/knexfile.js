@@ -3,9 +3,9 @@ module.exports = {
     development: {
         client: 'mysql',
         connection: {
-            host     : '127.0.0.1',
-            user     : 'root',
-            password : 'password',
+            host     : process.env.DB_HOST || '127.0.0.1',
+            user     : process.env.DB_USER || 'root',
+            password : process.env.DB_PASS || 'password',
             database : 'ceccompetitiondev',
             charset  : 'utf8'
         },
@@ -22,12 +22,11 @@ module.exports = {
     },
     test: {
         client: 'mysql',
-            connection: {
-            host     : '127.0.0.1',
-                user     : 'root',
-                password : 'password',
-                database : 'ceccompetitiontest',
-                charset  : 'utf8'
+        connection: {
+            host     : process.env.DB_HOST || '127.0.0.1',
+            user     : process.env.DB_USER || 'root',
+            password : process.env.DB_PASS || 'password',
+            charset  : 'utf8'
         },
         pool: { min: 2, max: 10 },
         acquireConnectionTimeout: 10000,
@@ -43,10 +42,9 @@ module.exports = {
     production: {
         client: 'mysql',
         connection: {
-            host     : '127.0.0.1',
-            user     : 'root',
-            password : 'password',
-            database : 'ceccompetitionprod',
+            host     : process.env.DB_HOST || '127.0.0.1',
+            user     : process.env.DB_USER || 'root',
+            password : process.env.DB_PASS || 'password',
             charset  : 'utf8'
         },
         pool: { min: 2, max: 10 },
