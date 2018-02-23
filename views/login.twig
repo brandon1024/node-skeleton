@@ -22,23 +22,19 @@
     {% endif %}
     <form action="/login" method="post" class = "card-body">
       <h1 class="h5 text-center mb-4c card-title">Sign In</h1>
-
       <div class="row md-form">
         <i class="fa fa-user prefix grey-text"></i>
-        <input type="text" name="username" id="defaultForm-username" class="form-control" required>
+        <input type="text" name="username" id="defaultForm-username" class="form-control" maxLength="32" required>
         <label for="defaultForm-username">Username</label>
       </div>
-
       <div class="row md-form">
         <i class="fa fa-lock prefix grey-text"></i>
-        <input type="password" name="password" id="defaultForm-pass" class="form-control" required>
+        <input type="password" name="password" id="defaultForm-pass" class="form-control" maxLength="64" required>
         <label for="defaultForm-pass">Password</label>
       </div>
-
       <div class="text-center">
         <button class="btn bg-blue-grey"><i class="fa fa-user"></i> Go</button>
       </div>
-
       <div class="modal-footer border-0">
         <div class="options font-weight-light">
           <p class="m-0">Not a member? <a href="/signup">Sign Up</a></p>
