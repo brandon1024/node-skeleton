@@ -73,7 +73,9 @@ To configure your IDE for Node.js development, you will need to change a couple 
 
 Next, select `Node.js and NPM` from `Languages & Frameworks` and enable `Node.js core library`.
 
-Lastly, you will need to add run configurations. This allows you to easily run, stop, and restart the app server. In the IDE toolbar, select the dropdown menu and select `Edit Run Configurations...`. In this window, you will create three configurations.
+Lastly, you will need to add run configurations. This allows you to easily run, stop, and restart the app server. These come preconfigured inside the repository .idea directory, meaning that you should not need to configure this manually. However, if you need to, you can follow these steps.
+
+In the IDE toolbar, select the dropdown menu and select `Edit Run Configurations...`. In this window, you will create three configurations.
 - `Run Server Development` Configuration
      - Create a new run configuration by pressing the `+` icon in the top left corner.
      - From the menu, select `Node.js`
@@ -83,7 +85,7 @@ Lastly, you will need to add run configurations. This allows you to easily run, 
           - Node Parameters: /usr/local/bin/nodemon
           - Working Directory: (use default here)
           - JavaScript File:
-          - Application Parameters: -e js,twig,sass,json node-skeleton
+          - Application Parameters: -e js,twig,sass,json bin/www
           - Environment Variables: DEBUG=*;NODE_ENV=development;HTTP_PORT=3000;HTTPS_PORT=9443
 - `Run Server Test` Configuration
      - Create a new run configuration by pressing the `+` icon in the top left corner.
@@ -96,17 +98,17 @@ Lastly, you will need to add run configurations. This allows you to easily run, 
           - JavaScript File:
           - Application Parameters:
           - Environment Variables: DEBUG=*;NODE_ENV=test;HTTP_PORT=3000;HTTPS_PORT=9443
-- `Run Server Deployment` Configuration
+- `Run Server Production` Configuration
      - Create a new run configuration by pressing the `+` icon in the top left corner.
      - From the menu, select `Node.js`
      - Enter the following details:
-          - Name: Run Server Deployment
+          - Name: Run Server Production
           - Node Interpreter: Project node (/usr/local/bin/node)
           - Node Parameters:
           - Working Directory: (use default here)
           - JavaScript File: bin/www
           - Application Parameters:
-          - Environment Variables: NODE_ENV=development;HTTP_PORT=3000;HTTPS_PORT=9443
+          - Environment Variables: NODE_ENV=production;HTTP_PORT=3000;HTTPS_PORT=9443
 
 Note: Setting the `DEBUG` environment variable will display debug information to the console using the `debug` middleware. This is useful for finding the cause of errors, but can be make debugging certain things difficult. It is recommended that you create a fourth run configuration titled `Run Server Development DEBUG OFF` with the same configuration as `Run Server Development`, but remove the `DEBUG` environment variable. You can also use this configuration to simulate a production-like environment.
 

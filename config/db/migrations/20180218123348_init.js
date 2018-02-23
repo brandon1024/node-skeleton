@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
         table.string('role').defaultTo('user');
         table.boolean('email_validated').defaultTo(false);
         table.timestamps();
-    })
+    });
 };
 
 exports.down = function(knex, Promise) {

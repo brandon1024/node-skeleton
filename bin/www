@@ -7,42 +7,45 @@ const https = require('https');
 const http = require('http');
 const fileSystem = require('fs');
 
-/* Get ports from environment and store in Express */
-const HTTPport = normalizePort(process.env.HTTP_PORT || '3000');
-const HTTPSport = normalizePort(process.env.HTTPS_PORT || '9443');
-app.set('HTTP_PORT', HTTPport);
-app.set('HTTP_PORT', HTTPSport);
+if(!process.env.NODE_ENV) {
+    console.log(`No NODE_ENV environment variable specified. Defaulting to 'development' environment.`);
+}
+else if(!['development', 'test', 'production'].includes(process.env.NODE_ENV)) {
+    console.error(`Invalid NODE_ENV environment variable specified: ${process.env.NODE_ENV}.`);
+    process.exit(1);
+}
 
-/* Create HTTPS Service */
+/* Configure HTTP Sever if Not ENFORCE_HTTPS*/
+if(process.env.ENFORCE_HTTPS !== 'true') {
+    const HTTPport = normalizePort(process.env.HTTP_PORT || '80');
+    const httpServer = http.createServer(app).listen(HTTPport);
+    httpServer.on('error', onError);
+    httpServer.on('listening', () => {
+        let addr = httpServer.address();
+        let bind = typeof addr === 'string'
+            ? 'pipe ' + addr
+            : 'port ' + addr.port;
+        debug('Listening on ' + bind);
+    });
+    console.log('HTTP Listening on port ' + HTTPport);
+}
+
+/* Configure HTTPS Sever */
+const HTTPSport = normalizePort(process.env.HTTPS_PORT || '443');
 const serverConfig = {
-    key: fileSystem.readFileSync('config/cert/client-key.pem'),
-    cert: fileSystem.readFileSync('config/cert/client-cert.pem')
+    key: fileSystem.readFileSync(process.env.HTTPS_KEY_PATH || 'config/cert/client-key.pem'),
+    cert: fileSystem.readFileSync(process.env.HTTPS_CERT_PATH || 'config/cert/client-cert.pem')
 };
-
-/* Create HTTP and HTTPS Servers */
-const httpServer = http.createServer(app).listen(HTTPport);
 const httpsServer = https.createServer(serverConfig, app).listen(HTTPSport);
-
-httpServer.on('error', onError);
 httpsServer.on('error', onError);
-
-httpServer.on('listening', () => {
-    let addr = httpServer.address();
-    let bind = typeof addr === 'string'
-        ? 'pipe ' + addr
-        : 'port ' + addr.port;
-    debug('Listening on ' + bind);
-});
-
 httpsServer.on('listening', () => {
-    let addr = httpServer.address();
+    let addr = httpsServer.address();
     let bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
 });
 
-console.log('HTTP Listening on port ' + HTTPport);
 console.log('HTTPS Listening on port ' + HTTPSport);
 
 
