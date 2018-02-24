@@ -38,7 +38,7 @@ module.exports = (app, passport) => {
             query.id = id;
         if(email)
             query.email = email;
-        else if(username)
+        if(username)
             query.username = username;
 
         User.query().where(query).select('id', 'username', 'email', 'email_validated', 'role').then(function(user) {
