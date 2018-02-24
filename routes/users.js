@@ -1,14 +1,8 @@
-/* Retrieve Router Handler */
+/* Router, Models, Middleware */
 const express = require('express');
 const router = express.Router();
-
-/* Debugger */
 const debug = require('debug')('route-user');
-
-/* Models */
 const User = require('../models/user');
-
-/* bcrypt */
 const bcrypt = require('bcryptjs');
 
 /* Validator */
@@ -51,31 +45,30 @@ module.exports = (app, passport) => {
             return res.send(user);
         }).catch(function(err) {
             debug(err);
-            return res.sendStatus(500).send('Internal server error.');
+            return res.status(500).send('Internal server error.');
         });
     });
 
-    router.post('/create', authenticateAdmin, function (req, res, next) {
+    router.post('/create', authenticateAdmin, jsonParser, function (req, res, next) {
         if(!req.body)
-            return res.sendStatus(400).send('No request body.');
+            return res.status(400).send('No request body.');
 
         let username = req.body['username'];
         let email = req.body['email'];
         let password = req.body['password'];
         let role = req.body['role'];
 
-        let message;
-
         /* Validate Parameters */
+        let message;
         if(message = userValidator.validateUsername(username))
-            return res.sendStatus(400).send(message);
+            return res.status(400).send(message);
         if(message = userValidator.validateEmail(email))
-            return res.sendStatus(400).send(message);
+            return res.status(400).send(message);
         if(message = userValidator.validatePassword(password))
-            return res.sendStatus(400).send(message);
+            return res.status(400).send(message);
 
         if(role && role !== User.ROLE_ADMIN && role !== User.ROLE_USER)
-            return res.sendStatus(400).send('Invalid role specified.');
+            return res.status(400).send('Invalid role specified.');
         else if(!role)
             role = User.ROLE_USER;
 
@@ -84,7 +77,7 @@ module.exports = (app, passport) => {
         /* Determine if User Exists */
         User.query({where: {username: username}, orWhere: {email: email}}).fetch().then(function(user) {
             if(user)
-                return res.sendStatus(400).send('User already exists.');
+                return res.status(400).send('User already exists.');
 
             /* Salt and Hash Password */
             let salt = bcrypt.genSaltSync(10);
@@ -96,18 +89,18 @@ module.exports = (app, passport) => {
                     return res.send('Successfully created user.');
                 }).catch(function (err) {
                     debug(err);
-                    return res.sendStatus(500).send('Internal server error.');
+                    return res.status(500).send('Internal server error.');
                 });
         }).catch(function(err) {
-            return res.sendStatus(500).send('Internal server error.');
+            return res.status(500).send('Internal server error.');
         });
     });
 
     router.post('/update', authenticateAdmin, function (req, res, next) {
         if(!req.body)
-            return res.sendStatus(400).send('No request body.');
+            return res.status(400).send('No request body.');
         if(!req.body['id'])
-            return res.sendStatus(400).send('Must specify user id.');
+            return res.status(400).send('Must specify user id.');
 
         let id = req.body['id'];
         let username = req.body['username'];
@@ -118,14 +111,14 @@ module.exports = (app, passport) => {
         /* Validate Parameters */
         let message;
         if(message = userValidator.validateUsername(username))
-            return res.sendStatus(400).send(message);
+            return res.status(400).send(message);
         if(message = userValidator.validateEmail(email))
-            return res.sendStatus(400).send(message);
+            return res.status(400).send(message);
         if(message = userValidator.validatePassword(password))
-            return res.sendStatus(400).send(message);
+            return res.status(400).send(message);
 
         if(role && role !== User.ROLE_ADMIN && role !== User.ROLE_USER)
-            return res.sendStatus(400).send('Invalid role specified.');
+            return res.status(400).send('Invalid role specified.');
         else if(!role)
             role = User.ROLE_USER;
 
@@ -134,7 +127,7 @@ module.exports = (app, passport) => {
         /* Find User to Update */
         User.byId(id).fetch().then(function(user) {
             if(!user)
-                return res.sendStatus(400).send('No user exists with id ' + id);
+                return res.status(400).send('No user exists with id ' + id);
 
             /* Forge Updated User*/
             let update = {};
@@ -162,17 +155,17 @@ module.exports = (app, passport) => {
 
                 return User.query(query).fetch().then(function(user) {
                     if(user)
-                        return res.sendStatus(400);
+                        return res.status(400);
 
                     return User.forge({id: id}).save(update).then(function() {
                         return res.send("Successfully updated user.");
                     }).catch(function (err) {
                         debug(err);
-                        return res.sendStatus(500).send('Internal server error.');
+                        return res.status(500).send('Internal server error.');
                     });
                 }).catch(function(err) {
                     debug(err);
-                    return res.sendStatus(500).send('Internal server error.');
+                    return res.status(500).send('Internal server error.');
                 });
             }
             else {
@@ -180,20 +173,20 @@ module.exports = (app, passport) => {
                     return res.send("Successfully updated user.");
                 }).catch(function (err) {
                     debug(err);
-                    return res.sendStatus(500).send('Internal server error.');
+                    return res.status(500).send('Internal server error.');
                 });
             }
         }).catch(function(err) {
             debug(err);
-            return res.sendStatus(500).send('Internal server error.');
+            return res.status(500).send('Internal server error.');
         });
     });
 
-    router.post('/delete', authenticateAdmin, function (req, res, next) {
+    router.post('/delete', authenticateAdmin, jsonParser, function (req, res, next) {
         if (!req.body)
-            return res.sendStatus(400).send('No request body.');
+            return res.status(400).send('No request body.');
         if(!req.body['id'])
-            return res.sendStatus(400).send('Must specify user id.');
+            return res.status(400).send('Must specify user id.');
 
         let id = req.body['id'];
 
@@ -202,7 +195,7 @@ module.exports = (app, passport) => {
             return res.send("User record deleted.")
         }).catch(function (err) {
             debug(err);
-            return res.sendStatus(500).send('Internal server error.');
+            return res.status(500).send('Internal server error.');
         });
     });
 
