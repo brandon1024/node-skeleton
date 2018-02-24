@@ -39,16 +39,15 @@ module.exports = (app, passport) => {
         let email = req.param('email');
         let username = req.param('username');
 
-        let query = User.query();
-
+        let query = {};
         if(id)
-            query = query.where('id', id);
-        else if(email)
-            query = query.where('email', email);
+            query.id = id;
+        if(email)
+            query.email = email;
         else if(username)
-            query = query.where('username', username);
+            query.username = username;
 
-        query.select('id', 'username', 'email', 'email_validated', 'role').then(function(user) {
+        User.query().where(query).select('id', 'username', 'email', 'email_validated', 'role').then(function(user) {
             return res.send(user);
         }).catch(function(err) {
             debug(err);
@@ -67,13 +66,11 @@ module.exports = (app, passport) => {
 
         let message;
 
-        /* Verify Correct Parameters */
+        /* Validate Parameters */
         if(message = userValidator.validateUsername(username))
             return res.sendStatus(400).send(message);
-
         if(message = userValidator.validateEmail(email))
             return res.sendStatus(400).send(message);
-
         if(message = userValidator.validatePassword(password))
             return res.sendStatus(400).send(message);
 
@@ -84,6 +81,7 @@ module.exports = (app, passport) => {
 
         username = username.toLowerCase();
 
+        /* Determine if User Exists */
         User.query({where: {username: username}, orWhere: {email: email}}).fetch().then(function(user) {
             if(user)
                 return res.sendStatus(400).send('User already exists.');
@@ -92,6 +90,7 @@ module.exports = (app, passport) => {
             let salt = bcrypt.genSaltSync(10);
             let hash = bcrypt.hashSync(password, salt);
 
+            /* Create User Record */
             return User.forge({username: username, email: email, hash: hash, salt: salt, role: role})
                 .save().then(function(model) {
                     return res.send('Successfully created user.');
@@ -116,14 +115,12 @@ module.exports = (app, passport) => {
         let password = req.body['password'];
         let role = req.body['role'];
 
+        /* Validate Parameters */
         let message;
-
         if(message = userValidator.validateUsername(username))
             return res.sendStatus(400).send(message);
-
         if(message = userValidator.validateEmail(email))
             return res.sendStatus(400).send(message);
-
         if(message = userValidator.validatePassword(password))
             return res.sendStatus(400).send(message);
 
@@ -134,10 +131,12 @@ module.exports = (app, passport) => {
 
         username = username.toLowerCase();
 
+        /* Find User to Update */
         User.byId(id).fetch().then(function(user) {
             if(!user)
                 return res.sendStatus(400).send('No user exists with id ' + id);
 
+            /* Forge Updated User*/
             let update = {};
             if(username)
                 update.username = username;
@@ -151,6 +150,7 @@ module.exports = (app, passport) => {
             if(role)
                 update.role = role;
 
+            /* Verify Username and Email Not Taken */
             if(username || email) {
                 let query;
                 if(username && !email)
@@ -197,6 +197,7 @@ module.exports = (app, passport) => {
 
         let id = req.body['id'];
 
+        /* Destroy User Record */
         User.forge({id: id}).destroy().then(function () {
             return res.send("User record deleted.")
         }).catch(function (err) {
