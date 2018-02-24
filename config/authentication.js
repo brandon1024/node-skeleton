@@ -3,6 +3,7 @@ const debug = require('debug')('authentication');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
+const userValidator = require('../services/validation/user-validation');
 
 module.exports = function (app, passport) {
     const LOCAL_STRATEGY_CONFIG = {
@@ -24,34 +25,20 @@ module.exports = function (app, passport) {
             let passwordconfirm = req.body['password-confirm'];
 
             /* Verify Correct Parameters */
-            if(!username)
-                return next(null, null, {message: 'Missing username field.'});
-            else
-                username = username.toLowerCase();
+            let message;
+            if(message = userValidator.validateUsername(username))
+                return next(null, null, {message: message});
+            if(message = userValidator.validateEmail(email))
+                return next(null, null, {message: message});
+            if(message = userValidator.validatePassword(password))
+                return next(null, null, {message: message});
+            if(message = userValidator.validatePassword(passwordconfirm))
+                return next(null, null, {message: message});
 
-            if(username.match(/[^a-zA-Z0-9\-\_\.]/g))
-                return next(null, null, {message: 'Username may only contain letters (a-z, A-Z), numbers (0-9), dashes (-), underscores (_), and periods (.).'});
-            if(username.length < 6 || username.length > 32)
-                return next(null, null, {message: 'Username must be between 6 and 32 characters long.'});
-
-            if(!email)
-                return next(null, null, {message: 'Missing email field.'});
-            if(!email.match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g))
-                return next(null, null, {message: 'Invalid email.'});
-            if(email.length > 255)
-                return next(null, null, {message: 'Email must be no more than 255 characters long.'});
-
-            if(!password)
-                return next(null, null, {message: 'Missing password field.'});
-            if(password.match(/[^a-zA-Z0-9~`!@#$%^&*()+=_\-{}\[\]\\|:;”’?/<>,.]/g))
-                return next(null, null, {message: 'Password may only contain letters (a-z, A-Z), numbers (0-9), and symbols (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.).'});
-            if(password.length < 6 || password.length > 64)
-                return next(null, null, {message: 'Password must be between 6 and 64 characters long.'});
-
-            if(!passwordconfirm)
-                return next(null, null, {message: 'Missing password confirm field.'});
             if(password !== passwordconfirm)
                 return next(null, null, {message: 'Passwords do not match.'});
+
+            username = username.toLowerCase();
 
             User.query({where: {username: username}, orWhere: {email: email}}).fetch().then(function(user) {
                 if(user)
@@ -62,12 +49,12 @@ module.exports = function (app, passport) {
                 let hash = bcrypt.hashSync(password, salt);
 
                 return User.forge({username: username, email: email, hash: hash, salt: salt})
-                .save().then(function(model) {
-                    return next(null, model.attributes, {});
-                }).catch(function (err) {
-                    debug(err);
-                    return next(err);
-                });
+                    .save().then(function(model) {
+                        return next(null, model.attributes, {});
+                    }).catch(function (err) {
+                        debug(err);
+                        return next(err);
+                    });
             }).catch(function(err) {
                 return next(err);
             });
