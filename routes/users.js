@@ -49,7 +49,7 @@ module.exports = (app, passport) => {
         });
     });
 
-    router.post('/create', authenticateAdmin, jsonParser, function (req, res, next) {
+    router.post('/create', authenticateAdmin, function (req, res, next) {
         if(!req.body)
             return res.status(400).send('No request body.');
 
@@ -182,7 +182,7 @@ module.exports = (app, passport) => {
         });
     });
 
-    router.post('/delete', authenticateAdmin, jsonParser, function (req, res, next) {
+    router.post('/delete', authenticateAdmin, function (req, res, next) {
         if (!req.body)
             return res.status(400).send('No request body.');
         if(!req.body['id'])
