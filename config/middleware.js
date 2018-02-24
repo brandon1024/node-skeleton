@@ -7,7 +7,6 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const sassMiddleware = require('node-sass-middleware');
 const flash = require("connect-flash");
-const passport = require('passport');
 const debug = require('debug')('middleware-config');
 
 module.exports = function (app) {
