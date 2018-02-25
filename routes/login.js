@@ -15,16 +15,6 @@ module.exports = (app, passport) => {
 
         res.render('login', {
             error: req.flash('error'),
-            title: 'APP TITLE',
-            navbar: {
-                title: 'APP TITLE NAV',
-                links: [
-                    {title: 'Home', url: '/'},
-                    {title: 'Login', url: '/login'},
-                    {title: 'Sign Up', url: '/signup'},
-                    {title: 'About', url: '/'},
-                    {title: 'Help', url: '/'}]
-            },
             authenticated: req.isAuthenticated()
         });
     });
