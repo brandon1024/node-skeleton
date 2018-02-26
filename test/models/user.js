@@ -28,9 +28,9 @@ describe('User', function() {
         describe('by username', function() {
             before(function(done) {
                 knex('users').insert({username: 'username1', email: 'email@email.com'}).then(function() {
-                    done();
+                    return done();
                 }).catch(function(err) {
-                    done(err);
+                    return done(err);
                 });
             });
 
@@ -41,7 +41,7 @@ describe('User', function() {
                     assert(user.attributes.email === 'email@email.com', 'should have the email email@email.com but was ' + user.attributes.email );
                     return done();
                 }).catch(function(err) {
-                    done(err);
+                    return done(err);
                 });
             });
         });
@@ -49,9 +49,9 @@ describe('User', function() {
         describe('by email', function() {
             before(function(done) {
                 knex('users').insert({username: 'username2', email: 'email2@email.com'}).then(function() {
-                    done();
+                    return done();
                 }).catch(function(err) {
-                    done(err);
+                    return done(err);
                 });
             });
 
@@ -62,7 +62,7 @@ describe('User', function() {
                     assert(user.attributes.username === 'username2', 'should have the username username2 but was ' + user.attributes.username);
                     return done();
                 }).catch(function(err) {
-                    done(err);
+                    return done(err);
                 });
             });
         });
@@ -77,7 +77,7 @@ describe('User', function() {
                     assert(user.attributes.email === 'email3@email.com', 'should have the email email3@email.com but was ' + user.attributes.email );
                     return done();
                 }).catch(function(err) {
-                    done(err);
+                    return done(err);
                 });
             });
         });
