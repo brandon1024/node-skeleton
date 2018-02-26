@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha"
+    "test": "NODE_ENV=test mocha \"test/**/*.js\" --exit"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

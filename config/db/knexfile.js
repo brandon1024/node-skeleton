@@ -26,6 +26,7 @@ module.exports = {
             host     : process.env.DB_HOST || '127.0.0.1',
             user     : process.env.DB_USER || 'root',
             password : process.env.DB_PASS || 'password',
+            database : 'ceccompetitiontest',
             charset  : 'utf8'
         },
         pool: { min: 2, max: 10 },
@@ -45,6 +46,7 @@ module.exports = {
             host     : process.env.DB_HOST || '127.0.0.1',
             user     : process.env.DB_USER || 'root',
             password : process.env.DB_PASS || 'password',
+            database : 'ceccompetitionprod',
             charset  : 'utf8'
         },
         pool: { min: 2, max: 10 },
