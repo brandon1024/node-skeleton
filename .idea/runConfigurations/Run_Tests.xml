@@ -5,6 +5,8 @@
     <node-interpreter value="project" />
     <envs>
       <env name="NODE_ENV" value="test" />
+      <env name="HTTP_PORT" value="3000" />
+      <env name="HTTPS_PORT" value="9443" />
     </envs>
     <method />
   </configuration>
