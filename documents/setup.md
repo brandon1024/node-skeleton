@@ -57,9 +57,9 @@ CREATE DATABASE ceccompetitionprod;
 In order to configure your database schemas, you will need to bring it up to date by running the database migrations. To do this, run the following in the terminal from the project working directory.
 
 ```
-knex migrate:latest --env development --knexfile db/knexfile.js
-knex migrate:latest --env test --knexfile db/knexfile.js
-knex migrate:latest --env production --knexfile db/knexfile.js
+knex migrate:latest --env development --knexfile config/db/knexfile.js
+knex migrate:latest --env test --knexfile config/db/knexfile.js
+knex migrate:latest --env production --knexfile config/db/knexfile.js
 ```
 
 This will bring all your databases up to date for all environments. You will need to rerun migrations whenever a new migration is added. In the future, you do not need to run migrations for all environments everytime a new migration is added. You only need to run migrations for the databases you use, which is most often the `development` environment, and occasionally the `test` environment. It is good practice to run migrations for all environments however.
