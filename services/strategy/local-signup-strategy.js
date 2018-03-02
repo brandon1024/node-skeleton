@@ -1,6 +1,6 @@
+const crypto = require('crypto');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../../models/user');
-const bcrypt = require('bcryptjs');
 const userValidator = require('../validation/user-validation');
 
 const LOCAL_STRATEGY_CONFIG = {
@@ -41,14 +41,13 @@ module.exports = new LocalStrategy(LOCAL_STRATEGY_CONFIG,
                 return next(null, null, {message: 'That username or email address is taken.'});
 
             /* Salt and Hash Password */
-            let salt = bcrypt.genSaltSync(10);
-            let hash = bcrypt.hashSync(password, salt);
+            let salt = crypto.randomBytes(64).toString('ascii');
+            let hash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('ascii');
 
             return User.forge({username: username, email: email, hash: hash, salt: salt})
                 .save().then(function(model) {
                     return next(null, model.attributes, {});
                 }).catch(function (err) {
-                    debug(err);
                     return next(err);
                 });
         }).catch(function(err) {
