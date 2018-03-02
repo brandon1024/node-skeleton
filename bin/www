@@ -7,9 +7,8 @@ const https = require('https');
 const http = require('http');
 const fileSystem = require('fs');
 
-if(!process.env.NODE_ENV) {
+if(!process.env.NODE_ENV)
     console.log(`No NODE_ENV environment variable specified. Defaulting to 'development' environment.`);
-}
 else if(!['development', 'test', 'production'].includes(process.env.NODE_ENV)) {
     console.error(`Invalid NODE_ENV environment variable specified: ${process.env.NODE_ENV}.`);
     process.exit(1);
@@ -19,7 +18,28 @@ else if(!['development', 'test', 'production'].includes(process.env.NODE_ENV)) {
 if(process.env.ENFORCE_HTTPS !== 'true') {
     const HTTPport = normalizePort(process.env.HTTP_PORT || '80');
     const httpServer = http.createServer(app).listen(HTTPport);
-    httpServer.on('error', onError);
+    httpServer.on('error', (error) => {
+        if (error.syscall !== 'listen')
+            throw error;
+
+        let bind = typeof HTTPport === 'string'
+            ? 'Pipe ' + HTTPport
+            : 'Port ' + HTTPport;
+
+        // handle specific listen errors with friendly messages
+        switch (error.code) {
+            case 'EACCES':
+                console.error(bind + ' requires elevated privileges');
+                process.exit(1);
+                break;
+            case 'EADDRINUSE':
+                console.error(bind + ' is already in use');
+                process.exit(1);
+                break;
+            default:
+                throw error;
+        }
+    });
     httpServer.on('listening', () => {
         let addr = httpServer.address();
         let bind = typeof addr === 'string'
@@ -37,7 +57,28 @@ const serverConfig = {
     cert: fileSystem.readFileSync(process.env.HTTPS_CERT_PATH || 'config/cert/client-cert.pem')
 };
 const httpsServer = https.createServer(serverConfig, app).listen(HTTPSport);
-httpsServer.on('error', onError);
+httpsServer.on('error', (error) => {
+    if (error.syscall !== 'listen')
+        throw error;
+
+    let bind = typeof HTTPSport === 'string'
+        ? 'Pipe ' + HTTPSport
+        : 'Port ' + HTTPSport;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+});
 httpsServer.on('listening', () => {
     let addr = httpsServer.address();
     let bind = typeof addr === 'string'
@@ -48,6 +89,7 @@ httpsServer.on('listening', () => {
 
 console.log('HTTPS Listening on port ' + HTTPSport);
 
+module.exports = app;
 
 /* Normalize a port into a number, string, or false */
 function normalizePort(val) {
@@ -64,29 +106,4 @@ function normalizePort(val) {
   }
 
   return false;
-}
-
-/* Event listener for HTTP server "error" event */
-function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
-
-  let bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
 }

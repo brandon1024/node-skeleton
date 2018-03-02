@@ -1,14 +1,15 @@
-describe('Routes Signup' , function() {
-    describe('GET /api/endpoint', function() {
-        /* Add API Tests */
-        it('should ...', function(done) {
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+
+describe('Routes Signup' , () => {
+    describe('GET /api/endpoint', () => {
+        it('should ...', (done) => {
             done();
         });
     });
 
-    describe('POST /api/endpoint', function() {
-        /* Add API Tests */
-        it('should ...', function(done) {
+    describe('POST /api/endpoint', () => {
+        it('should ...', (done) => {
             done();
         });
     });

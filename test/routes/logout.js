@@ -1,14 +1,9 @@
-describe('Routes Logout' , function() {
-    describe('GET /api/endpoint', function() {
-        /* Add API Tests */
-        it('should ...', function(done) {
-            done();
-        });
-    });
+const chai = require('chai');
+const chaiHttp = require('chai-http');
 
-    describe('POST /api/endpoint', function() {
-        /* Add API Tests */
-        it('should ...', function(done) {
+describe('Routes Logout' , () => {
+    describe('GET /logout', () => {
+        it('should successfully log out user', (done) => {
             done();
         });
     });

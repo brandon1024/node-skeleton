@@ -11,7 +11,9 @@ const debug = require('debug')('middleware-config');
 
 module.exports = function (app) {
     /* Configure Middleware */
-    app.use(httplogger('dev'));
+    if(process.env.NODE_ENV !== 'test')
+        app.use(httplogger('dev'));
+
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 

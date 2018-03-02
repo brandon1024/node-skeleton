@@ -1,0 +1,19 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Tests" type="js.build_tools.npm" factoryName="npm">
+    <package-json value="$PROJECT_DIR$/package.json" />
+    <command value="test" />
+    <node-interpreter value="project" />
+    <envs>
+      <env name="NODE_ENV" value="test" />
+      <env name="HTTP_PORT" value="3000" />
+      <env name="HTTPS_PORT" value="9443" />
+      <env name="HTTPS_KEY_PATH" value="config/cert/client-key.pem" />
+      <env name="HTTPS_CERT_PATH" value="config/cert/client-cert.pem" />
+      <env name="DB_HOST" value="127.0.0.1" />
+      <env name="DB_USER" value="root" />
+      <env name="DB_PASS" value="password" />
+      <env name="ENFORCE_HTTPS" value="false" />
+    </envs>
+    <method />
+  </configuration>
+</component>
