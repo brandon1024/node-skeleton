@@ -55,7 +55,7 @@ describe('Routes Users' , () => {
                     .type('form')
                     .send('username=useruser')
                     .send('password=password')
-                    .end(function(err, res) {
+                    .end((err, res) => {
                         assert(res.statusCode === 200, 'should have succeeded');
                         assert(res.res.req.path === '/dashboard', 'should have redirected to /dashboard');
                         done();
@@ -65,7 +65,7 @@ describe('Routes Users' , () => {
             after((done) => {
                 chai.request(app)
                     .get('/logout')
-                    .end(function(err, res) {
+                    .end((err, res) => {
                         assert(res.statusCode === 200, 'should have succeeded');
                         assert(res.res.req.path === '/login', 'should have redirected to /login');
                         done();

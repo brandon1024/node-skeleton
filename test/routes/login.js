@@ -1,17 +1,23 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
-describe('Routes Login' , function() {
-    describe('GET /api/endpoint', function() {
-        /* Add API Tests */
-        it('should ...', function(done) {
+describe('Routes Login' , () => {
+    describe('GET /login', () => {
+        it('should successfully render login page', (done) => {
+            done();
+        });
+
+        it('should successfully redirect authenticated user to dashboard', (done) => {
             done();
         });
     });
 
-    describe('POST /api/endpoint', function() {
-        /* Add API Tests */
-        it('should ...', function(done) {
+    describe('POST /login', () => {
+        it('should redirect to dashboard given valid credentials', (done) => {
+            done();
+        });
+
+        it('should not redirect to dashboard given invalid credentials', (done) => {
             done();
         });
     });
