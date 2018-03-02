@@ -1,6 +1,6 @@
+const crypto = require('crypto');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../../models/user');
-const bcrypt = require('bcryptjs');
 
 const LOCAL_STRATEGY_CONFIG = {
     usernameField: 'username',
@@ -15,12 +15,15 @@ module.exports = new LocalStrategy(LOCAL_STRATEGY_CONFIG,
             if(!user)
                 return next(null, null, {message: 'Incorrect username or password.'});
 
-            if(!bcrypt.compareSync(password, user.attributes.hash))
+            /* Salt and Hash Password */
+            let salt = user.attributes.salt;
+            let hash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('ascii');
+
+            if(hash !== user.attributes.hash)
                 return next(null, null, {message: 'Incorrect username or password.'});
 
             return next(null, user, {});
         }).catch(function(err) {
-            debug(err);
             return next(err);
         });
     }

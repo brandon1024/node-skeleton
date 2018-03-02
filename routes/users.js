@@ -1,9 +1,9 @@
 /* Router, Models, Middleware */
 const express = require('express');
 const router = express.Router();
+const crypto = require('crypto');
 const debug = require('debug')('route-user');
 const User = require('../models/user');
-const bcrypt = require('bcryptjs');
 
 /* Validator */
 const userValidator = require('../services/validation/user-validation');
@@ -80,8 +80,8 @@ module.exports = (app, passport) => {
                 return res.status(400).send('User already exists.');
 
             /* Salt and Hash Password */
-            let salt = bcrypt.genSaltSync(10);
-            let hash = bcrypt.hashSync(password, salt);
+            let salt = crypto.randomBytes(64).toString('ascii');
+            let hash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('ascii');
 
             /* Create User Record */
             return User.forge({username: username, email: email, hash: hash, salt: salt, role: role})
@@ -136,8 +136,8 @@ module.exports = (app, passport) => {
             if(email)
                 update.email = email;
             if(password) {
-                let salt = bcrypt.genSaltSync(10);
-                update.hash = bcrypt.hashSync(password, salt);
+                let salt = crypto.randomBytes(64).toString('ascii');
+                update.hash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('ascii');
                 update.salt = salt;
             }
             if(role)

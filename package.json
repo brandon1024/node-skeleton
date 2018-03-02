@@ -7,7 +7,6 @@
     "test": "mocha"
   },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
     "body-parser": "~1.18.2",
     "bookshelf": "^0.12.1",
     "connect-flash": "^0.1.1",
