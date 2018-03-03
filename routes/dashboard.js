@@ -16,14 +16,6 @@ module.exports = (app, passport) => {
     /* Views */
     router.get('/', authenticate, function(req, res, next) {
         res.render('dashboard', {
-            title: 'APP TITLE - Dashboard',
-            navbar: {
-                title: 'APP TITLE NAV',
-                links: [
-                    {title: 'Home', url: '/'},
-                    {title: 'About', url: '/'},
-                    {title: 'Help', url: '/'}]
-            },
             authenticated: req.isAuthenticated()
         });
     });
