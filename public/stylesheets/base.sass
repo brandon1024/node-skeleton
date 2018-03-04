@@ -4,9 +4,6 @@ body
 a
   color: #00B7FF
 
-.dropdown-menu
-  padding: .5rem!important
-
 .dropdown-menu-right
   right: 0!important
   left: auto!important
@@ -22,12 +19,10 @@ a
   box-shadow: 0 5px 15px 0 rgba(0,0,0,.18), 0 5px 15px 0 rgba(0,0,0,.15)
   border-radius: 25px
 
-#user-icon
-  float: right
-  position: absolute
-  right: 26px
-  top: 13px
+@media(min-width: 992px)
+  #user-nav-icon-mobile
+    display: none
 
-@media (max-width: 991px)
-  #user-icon
-    top: 18px
+@media(max-width: 992px)
+  #user-nav-icon
+    display: none

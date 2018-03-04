@@ -4,23 +4,29 @@
   {'url': '/help', 'title': 'Help'}
 ] %}
 
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-blue-grey scrolling-navbar" {% if authenticated %}style="padding-right: 70px!important"{% endif %}>
-  <a class="navbar-brand" href="/"><strong>{{ title }}</strong></a>
-  {% if authenticated %}
-  <div id="user-icon" class="btn-group">
-    <a class="" data-toggle="dropdown" id="user-dropdown" aria-haspopup="true" aria-expanded="false">
-      <i class="fa fa-user-circle-o fa-2x white-text"></i>
-    </a>
-
-    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user-dropdown">
-      <a class="dropdown-item" href="/logout">Logout</a>
-    </div>
+{% set usercontrols %}
+  <a data-toggle="dropdown" id="user-dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="fa fa-user-circle-o fa-2x white-text"></i>
+  </a>
+  <div class="dropdown-menu dropdown-menu-right p-2" aria-labelledby="user-dropdown">
+    <a class="dropdown-item" href="/logout">Logout</a>
   </div>
-  {% endif %}
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+{% endset %}
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-blue-grey scrolling-navbar">
+  <a class="navbar-brand" href="/"><strong>{{ title }}</strong></a>
+  <div class="navbar-toggle-buttons">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Display User Icon With Toggle on Mobile -->
+    {% if authenticated %}
+      <div id="user-nav-icon-mobile" class="btn-group">
+        {{ usercontrols }}
+      </div>
+    {% endif %}
+  </div>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       {% for link in links %}
@@ -32,4 +38,10 @@
       {% block navlinks %}{% endblock %}
     </ul>
   </div>
+  <!-- Display User Icon Justified Right on Desktop -->
+  {% if authenticated %}
+    <div id="user-nav-icon" class="btn-group">
+      {{ usercontrols }}
+    </div>
+  {% endif %}
 </nav>
