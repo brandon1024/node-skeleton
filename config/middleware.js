@@ -9,6 +9,10 @@ const sassMiddleware = require('node-sass-middleware');
 const flash = require("connect-flash");
 const debug = require('debug')('middleware-config');
 
+const knex = require('./db/bookshelf').knex;
+const SessionStore = require('../services/session-store')(session);
+const store = new SessionStore(knex, {tablename: 'sessions', maxAge: 86400000});
+
 module.exports = function (app) {
     /* Configure Middleware */
     if(process.env.NODE_ENV !== 'test')
@@ -21,7 +25,8 @@ module.exports = function (app) {
         secret: 'hackthehack',
         resave: true,
         saveUninitialized: false,
-        maxAge: 86400000
+        maxAge: 86400000,
+        store: store
     }));
 
     app.use(flash());

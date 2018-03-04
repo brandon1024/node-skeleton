@@ -26,5 +26,5 @@ knex migrate:latest --env production --knexfile config/db/knexfile.js
 ### Rollback a Migration
 To rollback all migrations, run the following:
 ```
-knex migrate:rollback
+knex migrate:rollback --env development --knexfile config/db/knexfile.js
 ```

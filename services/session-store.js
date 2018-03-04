@@ -7,16 +7,16 @@ module.exports = (session) => {
             this.knex = knex;
             this.config = config || {};
 
-            if(!config.tablename || typeof config.tablename !== "string")
+            if(!this.config.tablename || typeof this.config.tablename !== "string")
                 this.config.tablename = 'sessions';
-            if(!config.maxAge || !Number.isInteger(config.maxAge) || config.maxAge <= 0)
-                this.config.tablename = 86400000;
+            if(!this.config.maxAge || !Number.isInteger(this.config.maxAge) || this.config.maxAge <= 0)
+                this.config.maxAge = 86400000;
 
-            knex.schema.hasTable(this.config.tablename).then((exists) => {
+            this.knex.schema.hasTable(this.config.tablename).then((exists) => {
                 if(exists)
                     return exists;
 
-                return knex.schema.createTable(this.config.tablename, (table) => {
+                return this.knex.schema.createTable(this.config.tablename, (table) => {
                     table.increments('id').primary();
                     table.string('sid').unique();
                     table.string('session');
@@ -28,16 +28,11 @@ module.exports = (session) => {
             });
         }
 
-        all(callback) {
-            this.knex(this.config.tablename).select('session').then((sessions) => {
-                callback(null, sessions);
-            }).catch((err) => {
-                callback(err);
-            });
-        }
-
         destroy(sid, callback) {
-            this.knex(this.config.tablename).where({sid: sid}).select().del().then(() => {
+            if(!sid)
+                return callback();
+
+            this.knex(this.config.tablename).where({sid: sid}).del().then(() => {
                 callback();
             }).catch((err) => {
                 callback(err);
@@ -61,22 +56,48 @@ module.exports = (session) => {
         }
 
         get(sid, callback) {
-            //callback(err, session)
-            //check if session exists
-            //parse JSON session
-            //pass to callback
+            if(!sid)
+                return callback();
+
+            this.knex(this.config.tablename).where({sid: sid}).select().then((session) => {
+                session = session[0];
+                if(!session)
+                    return callback();
+
+                let expiryDate = new Date(Date.now() - this.config.maxAge);
+                let sessionUpdated = new Date(session.updated_at);
+                if(sessionUpdated < expiryDate)
+                    return callback();
+
+                return callback(null, JSON.parse(session.session));
+            }).catch((err) => {
+                callback(err);
+            });
         }
 
         set(sid, session, callback) {
-            //callback(err)
-            //check if sid exists
-            //check if valid session
-            //store session record
-            //invoke callback
+            if(!sid)
+                return callback();
+            if(!session || typeof session !== 'object')
+                return callback();
+
+            let sessionString = JSON.stringify(session);
+            let query = 'INSERT INTO ' + this.config.tablename + ' (sid, session) VALUES (?, ?) ON DUPLICATE KEY UPDATE session = ?';
+
+            this.knex.raw(query, [sid, sessionString, sessionString]).then((resp) => {
+                callback();
+            }).catch((err) => {
+                callback(err);
+            });
         }
 
         touch(sid, session, callback) {
-            this.knex(this.config.tablename).where({sid: sid}).update({session: session}).then(() => {
+            if(!sid)
+                return callback();
+            if(!session || typeof session !== 'object')
+                return callback();
+
+            this.knex(this.config.tablename).where({sid: sid}).update({session: session, updated_at: this.knex.fn.now()}).then(() => {
                 callback();
             }).catch((err) => {
                 callback(err);
@@ -86,8 +107,10 @@ module.exports = (session) => {
         //destroy any sessions that have not been updated
         //for this.config.maxAge ms
         siftExpiredSessions() {
-
-        }
+            let expiryDate = new Date(Date.now() - this.config.maxAge);
+            let formattedExpiryDate = expiryDate.toISOString().replace(/T/, ' ').replace(/Z/, '').replace(/\.\d*$/, '');
+            this.knex(this.config.tablename).where('updated_at', '<', formattedExpiryDate).del();
+        };
     }
 
     return SessionStore;
