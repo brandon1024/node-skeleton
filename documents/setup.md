@@ -36,7 +36,7 @@ This project relies on MySQL, so you will need to ensure you have it installed. 
 - Linux: [2.5 Installing MySQL on Linux - MySQL](https://dev.mysql.com/doc/refman/5.7/en/linux-installation.html)
 - MacOS: [2.4.2 Installing MySQL on OS X Using Native Packages - MySQL](https://dev.mysql.com/doc/refman/5.6/en/osx-installation-pkg.html)
 
-Although it isn't necessarily required, MySQL Workbench and JetBrains DataGrid are very useful tools for managing the database users and schemas. Once you have MySQL Workbench installed, create a new connection with the following parameters:
+Although it isn't necessarily required, MySQL Workbench and JetBrains DataGrip are very useful tools for managing the database users and schemas. Once you have MySQL Workbench installed, create a new connection with the following parameters:
 - Connection Name: node-skeleton (note: this name is irrelevant)
 - Hostname: 127.0.0.1
 - Port: 3306
@@ -45,7 +45,7 @@ Although it isn't necessarily required, MySQL Workbench and JetBrains DataGrid a
 
 Click the `Test Connection` to ensure you're able to connect to the MySQL server.
 
-In the query editor or in DataGrid, paste the following and run it (select the entire query and press the lightening bolt icon).
+In the query editor or in DataGrip, paste the following and run it (select the entire query and press the lightening bolt icon).
 
 ```
 CREATE DATABASE ceccompetitiondev;
