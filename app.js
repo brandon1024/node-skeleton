@@ -7,7 +7,6 @@ const app = express();
 const debug = require('debug')('app');
 const passport = require('passport');
 
-
 /* App Views and View Engine */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
