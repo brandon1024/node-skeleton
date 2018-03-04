@@ -28,6 +28,8 @@ require('./routes/signup')(app, passport);
 require('./routes/users')(app, passport);
 require('./routes/logout')(app, passport);
 require('./routes/dashboard')(app, passport);
+require('./routes/help')(app, passport);
+
 
 /* Implement Error Handler */
 require('./config/error-handler')(app);

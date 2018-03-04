@@ -1,0 +1,21 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+  <div class="container">
+    <div class="row" style="padding-top: 70px;">
+      <div id="markdown" class="col">
+        {{ html | raw }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ parent() }}
+  <script type="text/javascript" src="./routes/help.js"></script>
+{% endblock %}
+
+{# Add View-Specific Stylesheets #}
+{% block stylesheets %}
+  <link rel='stylesheet' href='/stylesheets/help.css'/>
+{% endblock %}
