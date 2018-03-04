@@ -1,0 +1,15 @@
+{% extends 'base.twig' %}
+
+{# Add View-Specific Stylesheets #}
+{% block stylesheets %}
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="row" style="padding-top: 70px;">
+      <div id="markdown" class="col">
+        {{ html | raw }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

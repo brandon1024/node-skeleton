@@ -7,7 +7,6 @@ const app = express();
 const debug = require('debug')('app');
 const passport = require('passport');
 
-
 /* App Views and View Engine */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
@@ -28,6 +27,8 @@ require('./routes/signup')(app, passport);
 require('./routes/users')(app, passport);
 require('./routes/logout')(app, passport);
 require('./routes/dashboard')(app, passport);
+require('./routes/help')(app, passport);
+
 
 /* Implement Error Handler */
 require('./config/error-handler')(app);
