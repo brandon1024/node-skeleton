@@ -1,5 +1,9 @@
 {% extends 'base.twig' %}
 
+{# Add View-Specific Stylesheets #}
+{% block stylesheets %}
+{% endblock %}
+
 {% block body %}
   <div class="container">
     <div class="row" style="padding-top: 70px;">
@@ -8,14 +12,4 @@
       </div>
     </div>
   </div>
-{% endblock %}
-
-{% block scripts %}
-  {{ parent() }}
-  <script type="text/javascript" src="./routes/help.js"></script>
-{% endblock %}
-
-{# Add View-Specific Stylesheets #}
-{% block stylesheets %}
-  <link rel='stylesheet' href='/stylesheets/help.css'/>
 {% endblock %}
