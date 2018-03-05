@@ -21,13 +21,24 @@ module.exports = function (app) {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
-    app.use(session({
-        secret: 'hackthehack',
-        resave: true,
+    let sessionConfig = {
+        secret: '4?2Fq%|YT{b7IGk8',
+        resave: false,
         saveUninitialized: false,
         maxAge: 86400000,
-        store: store
-    }));
+        store: store,
+        cookie: {
+            path: '/',
+            httpOnly: true,
+            secure: false,
+            maxAge: 86400000
+        }
+    };
+
+    if(process.env.NODE_ENV !== 'production' && process.env.ENFORCE_HTTPS  === 'true')
+        sessionConfig.cookie.secure = true;
+
+    app.use(session(sessionConfig));
 
     app.use(flash());
     app.use(sassMiddleware({
