@@ -1,6 +1,7 @@
 npm install
 sudo npm install -g nodemon
 sudo npm install -g knex
+sudo npm install -g mocha
 knex migrate:latest
 
 echo "Run this in MySQL:"
