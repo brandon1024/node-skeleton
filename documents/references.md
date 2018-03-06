@@ -48,10 +48,14 @@ Learn more: [Sass CSS Extension Language](https://sass-lang.com/)
 
 
 ## Mocha <sub>Feature-Rich JavaScript Test Framework</sub>
+Mocha is a test framework for JavaScript that allows you to easily build orgnized and cohesive test suites. It can be combined with a robust assertion library like Chai, and has many useful built in features that can help you create cleaner and more maintainable code.
 
 Learn more: [Mocha Test Framework](https://mochajs.org/)
 
 
 ## MySQL <sub>The World's Most Popular Open Source Database</sub>
+MySQL is one of the most widely uses database management systems currently in use. Companies including Google, Facebook, and Adobe all rely on MySQL for managing their business critital data.
+
+MySQL was chosen not only for its performance and reliability, but also for its in depth documentation.
 
 Learn more: [MySQL Database](https://www.mysql.com/)
