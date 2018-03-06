@@ -84,13 +84,13 @@ module.exports = (session) => {
         }
 
         touch(sid, session, callback) {
-            console.log('touched! :D');
             if(!sid)
                 return callback();
             if(!session || typeof session !== 'object')
                 return callback();
 
-            this.knex(this.config.tablename).where({sid: sid}).update({session: session, updated_at: this.knex.fn.now()}).then(() => {
+            let sessionString = JSON.stringify(session);
+            this.knex(this.config.tablename).where({sid: sid}).update({session: sessionString, updated_at: this.knex.fn.now()}).then(() => {
                 callback();
             }).catch((err) => {
                 callback(err);
