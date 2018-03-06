@@ -13,18 +13,10 @@ module.exports = (session) => {
                 this.config.maxAge = 86400000;
 
             this.knex.schema.hasTable(this.config.tablename).then((exists) => {
-                if(exists)
-                    return exists;
+                if(!exists)
+                    throw new Error('No table exists with the name \'' + this.config.tablename + '\'. Consider running migrations.');
 
-                return this.knex.schema.createTable(this.config.tablename, (table) => {
-                    table.increments('id').primary();
-                    table.string('sid').unique();
-                    table.string('session');
-                    table.timestamps();
-                });
-            }).then((exists) => {
-                if(exists)
-                    this.siftExpiredSessions();
+                this.siftExpiredSessions();
             });
         }
 
@@ -92,6 +84,7 @@ module.exports = (session) => {
         }
 
         touch(sid, session, callback) {
+            console.log('touched! :D');
             if(!sid)
                 return callback();
             if(!session || typeof session !== 'object')

@@ -23,7 +23,7 @@ module.exports = function (app) {
 
     let sessionConfig = {
         secret: '4?2Fq%|YT{b7IGk8',
-        resave: false,
+        resave: true,
         saveUninitialized: false,
         maxAge: 86400000,
         store: store,

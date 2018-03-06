@@ -9,7 +9,7 @@ module.exports = (app, passport) => {
     /* Views */
     router.get('/', function(req, res, next) {
         if (req.isAuthenticated())
-            return debug(res.redirect('/dashboard'));
+            return res.redirect('/dashboard');
 
         res.render('login', {
             error: req.flash('error'),
