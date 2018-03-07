@@ -2,9 +2,12 @@
   "name": "node-skeleton",
   "version": "0.0.1",
   "private": true,
+  "authors": ["Brandon Richardson", "Jacob Smith", "Amir Eldesoky", "Alex ODonnel"],
   "scripts": {
     "start": "node ./bin/www",
-    "test": "NODE_ENV=test mocha \"test/**/*.js\" --exit"
+    "test": "NODE_ENV=test mocha \"test/**/*.js\" --exit",
+    "migrate": "knex migrate:latest --env development --knexfile config/db/knexfile.js & knex migrate:latest --env test --knexfile config/db/knexfile.js & knex migrate:latest --env production --knexfile config/db/knexfile.js",
+    "rollback": "knex migrate:rollback --env development --knexfile config/db/knexfile.js & knex migrate:rollback --env test --knexfile config/db/knexfile.js & knex migrate:rollback --env production --knexfile config/db/knexfile.js"
   },
   "dependencies": {
     "body-parser": "~1.18.2",

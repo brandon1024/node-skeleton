@@ -7,11 +7,13 @@ const https = require('https');
 const http = require('http');
 const fileSystem = require('fs');
 
-if(!process.env.NODE_ENV)
+if(!process.env.NODE_ENV) {
     console.log(`No NODE_ENV environment variable specified. Defaulting to 'development' environment.`);
+    process.env.NODE_ENV = 'development';
+}
 else if(!['development', 'test', 'production'].includes(process.env.NODE_ENV)) {
-    console.error(`Invalid NODE_ENV environment variable specified: ${process.env.NODE_ENV}.`);
-    process.exit(1);
+    console.log(`Invalid NODE_ENV environment variable specified. Defaulting to 'development' environment.`);
+    process.env.NODE_ENV = 'development';
 }
 
 /* Configure HTTP Sever if Not ENFORCE_HTTPS*/

@@ -8,10 +8,8 @@ const debug = require('debug')('route-login');
 module.exports = (app, passport) => {
     /* Views */
     router.get('/', function(req, res, next) {
-        if (req.isAuthenticated()) {
-            res.redirect('/dashboard');
-            return next();
-        }
+        if (req.isAuthenticated())
+            return res.redirect('/dashboard');
 
         res.render('login', {
             error: req.flash('error'),
