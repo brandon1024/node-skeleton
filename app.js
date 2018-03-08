@@ -33,4 +33,6 @@ require('./routes/help')(app, passport);
 /* Implement Error Handler */
 require('./config/error-handler')(app);
 
+require('./services/markdown-generator')('documents/environment-variables.md');
+
 module.exports = app;
