@@ -7,10 +7,16 @@ label.label-validation
   width: 100%
   text-align: left
 
-input[type=password]#password:focus:not([readonly])
+/* Valid Username Indicator */
+input.bad:focus:not([readonly])
   border-bottom: 1px solid #ff0000
   box-shadow: 0 1px 0 0 #ff0000
 
+input.good:focus:not([readonly])
+  border-bottom: 1px solid #40B000
+  box-shadow: 0 1px 0 0 #40B000
+
+/* Password Strength Indicators */
 input[type=password]#password.strength0:focus:not([readonly])
   border-bottom: 1px solid #ff0000
   box-shadow: 0 1px 0 0 #ff0000

@@ -49,6 +49,7 @@ function passwordStrength(pass) {
 }
 
 window.onload = function() {
+    /* Remove Warning Text */
     document.getElementById('username').addEventListener('change', function (event) {
         var targetElement = event.target || event.srcElement;
         if (!targetElement.value)
@@ -67,32 +68,97 @@ window.onload = function() {
             targetElement.classList.remove('invalid');
     });
 
-    document.getElementById('password').addEventListener('input', function() {
-        /* Change Incator Bar Color */
-        var labelIndicator = document.querySelector('input[type=password]');
-        var password = document.getElementById('password').value;
-        var strength = passwordStrength(password);
-
-        var classes = labelIndicator.classList.toString().match(/strength\d/);
-        if(classes)
-            for(var index = 0; index < classes.length; index++)
-                labelIndicator.classList.remove(classes[index]);
-
-        if(strength === 0)
-            labelIndicator.classList.add('strength0');
-        else if(strength === 1)
-            labelIndicator.classList.add('strength1');
-        else if(strength === 2)
-            labelIndicator.classList.add('strength2');
-        else if(strength === 3)
-            labelIndicator.classList.add('strength3');
-        else
-            labelIndicator.classList.add('strength4');
-    });
-
     document.getElementById('password-confirm').addEventListener('change', function (event) {
         var targetElement = event.target || event.srcElement;
         if (!targetElement.value)
             targetElement.classList.remove('invalid');
+    });
+
+    /* Username Indicator */
+    document.getElementById('username').addEventListener('input', function(event) {
+        /* Change Incator Bar Color */
+        var inputField = event.target || event.srcElement;
+        var username = inputField.value;
+
+        var classes = inputField.classList.toString().match(/good|bad/);
+        if(classes)
+            for(var index = 0; index < classes.length; index++)
+                inputField.classList.remove(classes[index]);
+
+        if(username.length === 0)
+            return;
+
+        if(username.length < 6 || username.length > 32)
+            inputField.classList.add('bad');
+        else
+            inputField.classList.add('good');
+    });
+
+    /* Email Indicator */
+    document.getElementById('email').addEventListener('input', function(event) {
+        /* Change Incator Bar Color */
+        var inputField = event.target || event.srcElement;
+        var email = inputField.value;
+
+        var classes = inputField.classList.toString().match(/good|bad/);
+        if(classes)
+            for(var index = 0; index < classes.length; index++)
+                inputField.classList.remove(classes[index]);
+
+        if(email.length === 0)
+            return;
+
+        if(email.length > 255 || email.match(/^[^@]+@[^@]+$/) == null)
+            inputField.classList.add('bad');
+        else
+            inputField.classList.add('good');
+    });
+
+    /* Password Strength Indicator */
+    document.getElementById('password').addEventListener('input', function(event) {
+        /* Change Incator Bar Color */
+        var inputField = event.target || event.srcElement;
+        var password = inputField.value;
+        var strength = passwordStrength(password);
+
+        var classes = inputField.classList.toString().match(/strength\d/);
+        if(classes)
+            for(var index = 0; index < classes.length; index++)
+                inputField.classList.remove(classes[index]);
+
+        if(password.length === 0)
+            return;
+
+        if(strength === 0)
+            inputField.classList.add('strength0');
+        else if(strength === 1)
+            inputField.classList.add('strength1');
+        else if(strength === 2)
+            inputField.classList.add('strength2');
+        else if(strength === 3)
+            inputField.classList.add('strength3');
+        else
+            inputField.classList.add('strength4');
+    });
+
+    /* Password Confirm Indicator */
+    document.getElementById('password-confirm').addEventListener('input', function() {
+        /* Change Incator Bar Color */
+        var inputField = event.target || event.srcElement;
+        var password = document.getElementById('password').value;
+        var passwordConfirm = document.getElementById('password-confirm').value;
+
+        var classes = inputField.classList.toString().match(/good|bad/);
+        if(classes)
+            for(var index = 0; index < classes.length; index++)
+                inputField.classList.remove(classes[index]);
+
+        if(passwordConfirm.length === 0)
+            return;
+
+        if(password !== passwordConfirm)
+            inputField.classList.add('bad');
+        else
+            inputField.classList.add('good');
     });
 };
