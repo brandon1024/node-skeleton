@@ -1,0 +1,10 @@
+{
+  "name": "App Name",
+  "short_name": "App Name",
+  "lang": "en-US",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#78909c",
+  "description": "A Real-World Node.js Express App Template with Preconfigured Security Features"
+}
