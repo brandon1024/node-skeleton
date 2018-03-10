@@ -85,7 +85,7 @@ In the IDE toolbar, select the dropdown menu and select `Edit Run Configurations
           - Node Parameters: /usr/local/bin/nodemon
           - Working Directory: (use default here)
           - JavaScript File:
-          - Application Parameters: -e js,twig,sass,json bin/www
+          - Application Parameters: -e js,twig,sass,json bin/server.js
           - Environment Variables: DEBUG=*;NODE_ENV=development;HTTP_PORT=3000;HTTPS_PORT=9443
 - `Run Server Test` Configuration
      - Create a new run configuration by pressing the `+` icon in the top left corner.
@@ -106,7 +106,7 @@ In the IDE toolbar, select the dropdown menu and select `Edit Run Configurations
           - Node Interpreter: Project node (/usr/local/bin/node)
           - Node Parameters:
           - Working Directory: (use default here)
-          - JavaScript File: bin/www
+          - JavaScript File: bin/server.js
           - Application Parameters:
           - Environment Variables: NODE_ENV=production;HTTP_PORT=3000;HTTPS_PORT=9443
 

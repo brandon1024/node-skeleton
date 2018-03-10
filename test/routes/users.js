@@ -4,7 +4,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 
 /* App Setup */
-const app = require('../../bin/www');
+const app = require('../../bin/server');
 const User = require('../../models/user.js');
 const knex = require('../../config/db/bookshelf').knex;
 

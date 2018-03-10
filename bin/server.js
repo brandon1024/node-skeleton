@@ -16,42 +16,6 @@ else if(!['development', 'test', 'production'].includes(process.env.NODE_ENV)) {
     process.env.NODE_ENV = 'development';
 }
 
-/* Configure HTTP Sever if Not ENFORCE_HTTPS*/
-if(process.env.ENFORCE_HTTPS !== 'true') {
-    const HTTPport = normalizePort(process.env.HTTP_PORT || '80');
-    const httpServer = http.createServer(app).listen(HTTPport);
-    httpServer.on('error', (error) => {
-        if (error.syscall !== 'listen')
-            throw error;
-
-        let bind = typeof HTTPport === 'string'
-            ? 'Pipe ' + HTTPport
-            : 'Port ' + HTTPport;
-
-        // handle specific listen errors with friendly messages
-        switch (error.code) {
-            case 'EACCES':
-                console.error(bind + ' requires elevated privileges');
-                process.exit(1);
-                break;
-            case 'EADDRINUSE':
-                console.error(bind + ' is already in use');
-                process.exit(1);
-                break;
-            default:
-                throw error;
-        }
-    });
-    httpServer.on('listening', () => {
-        let addr = httpServer.address();
-        let bind = typeof addr === 'string'
-            ? 'pipe ' + addr
-            : 'port ' + addr.port;
-        debug('Listening on ' + bind);
-    });
-    console.log('HTTP Listening on port ' + HTTPport);
-}
-
 /* Configure HTTPS Sever */
 const HTTPSport = normalizePort(process.env.HTTPS_PORT || '443');
 const serverConfig = {
@@ -90,6 +54,52 @@ httpsServer.on('listening', () => {
 });
 
 console.log('HTTPS Listening on port ' + HTTPSport);
+
+/* Configure HTTP Server According to ENFORCE_H TTPS*/
+if(process.env.ENFORCE_HTTPS === 'true') {
+    const HTTPport = normalizePort(process.env.HTTP_PORT || '80');
+    http.createServer(function(req, res) {
+        if(process.env.NODE_ENV === 'development')
+            res.writeHead(302, { "Location": "https://localhost:" + HTTPSport + req.url });
+        else
+            res.writeHead(302, { "Location": "https://" + req.headers['host'] + req.url });
+        res.end();
+    }).listen(HTTPport);
+}
+else {
+    const HTTPport = normalizePort(process.env.HTTP_PORT || '80');
+    const httpServer = http.createServer(app).listen(HTTPport);
+    httpServer.on('error', (error) => {
+        if (error.syscall !== 'listen')
+            throw error;
+
+        let bind = typeof HTTPport === 'string'
+            ? 'Pipe ' + HTTPport
+            : 'Port ' + HTTPport;
+
+        // handle specific listen errors with friendly messages
+        switch (error.code) {
+            case 'EACCES':
+                console.error(bind + ' requires elevated privileges');
+                process.exit(1);
+                break;
+            case 'EADDRINUSE':
+                console.error(bind + ' is already in use');
+                process.exit(1);
+                break;
+            default:
+                throw error;
+        }
+    });
+    httpServer.on('listening', () => {
+        let addr = httpServer.address();
+        let bind = typeof addr === 'string'
+            ? 'pipe ' + addr
+            : 'port ' + addr.port;
+        debug('Listening on ' + bind);
+    });
+    console.log('HTTP Listening on port ' + HTTPport);
+}
 
 module.exports = app;
 
