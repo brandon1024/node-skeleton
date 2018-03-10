@@ -48,9 +48,9 @@ Click the `Test Connection` to ensure you're able to connect to the MySQL server
 In the query editor or in DataGrip, paste the following and run it (select the entire query and press the lightening bolt icon).
 
 ```
-CREATE DATABASE ceccompetitiondev;
-CREATE DATABASE ceccompetitiontest;
-CREATE DATABASE ceccompetitionprod;
+CREATE DATABASE nodeappdev;
+CREATE DATABASE nodeapptest;
+CREATE DATABASE nodeappprod;
 ```
 
 ## Database Migrations

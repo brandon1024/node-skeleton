@@ -2,7 +2,7 @@
 
 /* Module Dependencies */
 const app = require('../app');
-const debug = require('debug')('cechackathon:server');
+const debug = require('debug')('nodeapp:server');
 const https = require('https');
 const http = require('http');
 const fileSystem = require('fs');
