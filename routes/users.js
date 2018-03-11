@@ -11,9 +11,10 @@ const userValidator = require('../services/validation/user-validation');
 
 module.exports = (app, passport) => {
     function authenticate(req, res, next) {
-        if (req.isAuthenticated())
+        if(req.isAuthenticated())
             return next();
 
+        req.session.redirectTo = req.originalUrl;
         res.redirect('/login')
     }
 
@@ -24,11 +25,9 @@ module.exports = (app, passport) => {
         res.status(403).send("Insufficient permissions.");
     }
 
-    /* Views */
-
 
     /* API Endpoints */
-    router.get('/find', authenticate, function (req, res, next) {
+    router.get('/find', authenticateAdmin, (req, res, next) => {
         let id = req.param('id');
         let email = req.param('email');
         let username = req.param('username');
@@ -41,15 +40,14 @@ module.exports = (app, passport) => {
         if(username)
             query.username = username;
 
-        User.query().where(query).select('id', 'username', 'email', 'email_validated', 'role').then(function(user) {
+        User.query().where(query).select('id', 'username', 'email', 'email_validated', 'role').then((user) => {
             return res.send(user);
-        }).catch(function(err) {
-            debug(err);
+        }).catch((err) => {
             return res.status(500).send('Internal server error.');
         });
     });
 
-    router.post('/create', authenticateAdmin, function (req, res, next) {
+    router.post('/create', authenticateAdmin, (req, res, next) => {
         if(!req.body)
             return res.status(400).send('No request body.');
 
@@ -75,28 +73,27 @@ module.exports = (app, passport) => {
         username = username.toLowerCase();
 
         /* Determine if User Exists */
-        User.query({where: {username: username}, orWhere: {email: email}}).fetch().then(function(user) {
-            if(user)
-                return res.status(400).send('User already exists.');
+        User.query({where: {username: username}, orWhere: {email: email}}).fetch().then((user) => {
+            if(user) {
+                res.status(400).send('User already exists.');
+                return;
+            }
 
             /* Salt and Hash Password */
             let salt = crypto.randomBytes(64).toString('ascii');
             let hash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('ascii');
 
             /* Create User Record */
-            return User.forge({username: username, email: email, hash: hash, salt: salt, role: role})
-                .save().then(function(model) {
-                    return res.send('Successfully created user.');
-                }).catch(function (err) {
-                    debug(err);
-                    return res.status(500).send('Internal server error.');
-                });
-        }).catch(function(err) {
+            return User.forge({username: username, email: email, hash: hash, salt: salt, role: role}).save();
+        }).then((model) => {
+            if(model)
+                return res.send('Successfully created user.');
+        }).catch((err) => {
             return res.status(500).send('Internal server error.');
         });
     });
 
-    router.post('/update', authenticateAdmin, function (req, res, next) {
+    router.post('/update', authenticateAdmin, (req, res, next) => {
         if(!req.body)
             return res.status(400).send('No request body.');
         if(!req.body['id'])
@@ -119,15 +116,17 @@ module.exports = (app, passport) => {
 
         if(role && role !== User.ROLE_ADMIN && role !== User.ROLE_USER)
             return res.status(400).send('Invalid role specified.');
-        else if(!role)
+        if(!role)
             role = User.ROLE_USER;
 
         username = username.toLowerCase();
 
         /* Find User to Update */
-        User.byId(id).fetch().then(function(user) {
-            if(!user)
-                return res.status(400).send('No user exists with id ' + id);
+        User.byId(id).fetch().then((user) => {
+            if(!user) {
+                res.status(400).send('No user exists with id ' + id);
+                return;
+            }
 
             /* Forge Updated User*/
             let update = {};
@@ -153,36 +152,26 @@ module.exports = (app, passport) => {
                 else
                     query = {where: {username: username}, orWhere: {email: email}};
 
-                return User.query(query).fetch().then(function(user) {
-                    if(user)
-                        return res.status(400);
+                return User.query(query).fetch().then((user) => {
+                    if(user) {
+                        res.status(400).send('User with that username or email already exists.');
+                        return;
+                    }
 
-                    return User.forge({id: id}).save(update).then(function() {
-                        return res.send("Successfully updated user.");
-                    }).catch(function (err) {
-                        debug(err);
-                        return res.status(500).send('Internal server error.');
-                    });
-                }).catch(function(err) {
-                    debug(err);
-                    return res.status(500).send('Internal server error.');
+                    return User.forge({id: id}).save(update);
                 });
             }
-            else {
-                return User.forge({id: id}).save(update).then(function() {
-                    return res.send("Successfully updated user.");
-                }).catch(function (err) {
-                    debug(err);
-                    return res.status(500).send('Internal server error.');
-                });
-            }
-        }).catch(function(err) {
-            debug(err);
+            else
+                return User.forge({id: id}).save(update);
+        }).then((model) => {
+            if(model)
+                return res.send("Successfully updated user.");
+        }).catch((err) => {
             return res.status(500).send('Internal server error.');
         });
     });
 
-    router.post('/delete', authenticateAdmin, function (req, res, next) {
+    router.post('/delete', authenticateAdmin, (req, res, next) => {
         if (!req.body)
             return res.status(400).send('No request body.');
         if(!req.body['id'])
@@ -191,10 +180,9 @@ module.exports = (app, passport) => {
         let id = req.body['id'];
 
         /* Destroy User Record */
-        User.forge({id: id}).destroy().then(function () {
-            return res.send("User record deleted.")
-        }).catch(function (err) {
-            debug(err);
+        User.forge({id: id}).destroy().then(() => {
+            return res.send("User record deleted.");
+        }).catch((err) => {
             return res.status(500).send('Internal server error.');
         });
     });

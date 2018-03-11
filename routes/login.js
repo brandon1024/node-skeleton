@@ -13,17 +13,19 @@ module.exports = (app, passport) => {
 
         res.render('login', {
             error: req.flash('error'),
-            authenticated: req.isAuthenticated()
+            authenticated: false
         });
     });
 
-
     /* API Endpoints */
     router.post('/', passport.authenticate('login', {
-        successRedirect: '/dashboard',
         failureRedirect: '/login',
         failureFlash: 'Incorrect username or password.'
-    }));
+    }), (req, res, next) => {
+        let redirectTo = req.session.redirectTo || '/dashboard';
+        delete req.session.redirectTo;
+        res.redirect(redirectTo);
+    });
 
     /* Register Router */
     app.use('/login', router);

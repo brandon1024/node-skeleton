@@ -11,19 +11,17 @@ module.exports = (app, passport) => {
             return next();
 
         req.session.redirectTo = req.originalUrl;
-        res.redirect('/login')
+        res.redirect('/login');
     }
 
     /* Views */
-    router.get('/', authenticate, function(req, res, next) {
-        res.render('dashboard', {
+    router.get('/', authenticate, (req, res, next) => {
+        res.render('account', {
             authenticated: req.isAuthenticated()
         });
     });
 
-
     /* API Endpoints */
 
-    /* Register Router */
-    app.use('/dashboard', router);
+    app.use('/account', router);
 };
