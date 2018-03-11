@@ -13,5 +13,68 @@
 
 {# View Body #}
 {% block body %}
-
+  <div id="account-info">
+    <div class="container pt-4 pb-4">
+      <h3>Account Information</h3>
+      <hr>
+      <div class="container">
+        <div class="md-form">
+          <input type="email" id="primary-email-address-form">
+          <label for="primary-email-address-form">Primary Email Address</label>
+        </div>
+        <div class="md-form">
+          <input type="email" id="secondary-email-address-form">
+          <label for="secondary-email-address-form">Secondary Email Address</label>
+        </div>
+        <div class="md-form">
+          <input type="text" id="username-form">
+          <label for="username-form">Username</label>
+        </div>
+        <div class="md-form">
+          <input type="text" id="first-name-form">
+          <label for="first-name-form">First Name</label>
+        </div>
+        <div class="md-form">
+          <input type="text" id="last-name-form">
+          <label for="last-name-form">Last Name</label>
+        </div>
+        <div class="text-right">
+          <a class="btn btn-large bg-elegant" href="/" role="button">Update Account Information</a>
+        </div>
+      </div>
+    </div>
+    <div class="container pb-4">
+      <h3>Security</h3>
+      <hr>
+      <div class="container">
+        <div class="md-form">
+          <input type="text" id="password-form">
+          <label for="password-form">Password</label>
+        </div>
+        <div class="md-form">
+          <input type="text" id="password-confirm-form">
+          <label for="password-confirm-form">Password Confirm</label>
+        </div>
+        <div class="text-right">
+          <a class="btn btn-large bg-elegant" href="/" role="button">Change Password</a>
+        </div>
+      </div>
+    </div>
+    <div class="container pb-4">
+      <h3>Account Management</h3>
+      <hr>
+      <div class="container">
+        <h4>Delete Account</h4>
+        <p>
+          After deleting your account, you will not be able to recover your profile. All data associated to your account will be last.
+        </p>
+        <p>
+          You will be promted to confirm before any action is taken.
+        </p>
+        <div class="text-right">
+          <a class="btn btn-large bg-elegant" href="/" role="button">Delete Account</a>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

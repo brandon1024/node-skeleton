@@ -18,7 +18,9 @@
     <header>
       {% include 'navbar.twig' with title %}
     </header>
-    {% block body %}{% endblock %}
+    <div id="main-content">
+      {% block body %}{% endblock %}
+    </div>
   </body>
   <script type="text/javascript" src="/mdb/js/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="/mdb/js/bootstrap.min.js"></script>
