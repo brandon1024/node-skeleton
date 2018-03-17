@@ -9,55 +9,81 @@
 {% endblock %}
 
 {# Add View-Specific Scripts #}
-{% block scripts %}{% endblock %}
+{% block scripts %}
+  <script type="text/javascript" src="/js/account.js"></script>
+{% endblock %}
 
 {# View Body #}
 {% block body %}
   <div id="account-info">
     <div class="container pt-4 pb-4">
+    {% if error %}
+      <div class="card red text-center z-depth-2">
+        <div class="card-body">
+          <p class="white-text mb-0">{{ error }}</p>
+        </div>
+      </div>
+    {% endif %}
+    {% if message %}
+      <div class="card green text-center z-depth-2">
+        <div class="card-body">
+          <p class="white-text mb-0">{{ message }}</p>
+        </div>
+      </div>
+    {% endif %}
+    </div>
+    <div class="container pb-4">
       <h3>Account Information</h3>
       <hr>
       <div class="container">
-        <div class="md-form">
-          <input type="email" id="primary-email-address-form">
-          <label for="primary-email-address-form">Primary Email Address</label>
-        </div>
-        <div class="md-form">
-          <input type="email" id="secondary-email-address-form">
-          <label for="secondary-email-address-form">Secondary Email Address</label>
-        </div>
-        <div class="md-form">
-          <input type="text" id="username-form">
-          <label for="username-form">Username</label>
-        </div>
-        <div class="md-form">
-          <input type="text" id="first-name-form">
-          <label for="first-name-form">First Name</label>
-        </div>
-        <div class="md-form">
-          <input type="text" id="last-name-form">
-          <label for="last-name-form">Last Name</label>
-        </div>
-        <div class="text-right">
-          <a class="btn btn-large bg-elegant" href="/" role="button">Update Account Information</a>
-        </div>
+        <form action="/account/change-account-info" onsubmit="return validateAccountInfoForm()" method="post">
+          <div class="md-form">
+            <input name="email" type="email" id="primary-email-address" value="{{ email_primary }}" maxLength="255" class="form-control">
+            <label class="label-validation" for="primary-email-address" data-error="Email must be no more than 255 characters long." data-success="Email good.">Primary Email Address</label>
+          </div>
+          <div class="md-form">
+            <input name="email_secondary" type="email" id="secondary-email-address" value="{{ email_secondary }}" maxLength="255" class="form-control">
+            <label class="label-validation" for="secondary-email-address" data-error="Email must be no more than 255 characters long." data-success="Email good.">Secondary Email Address</label>
+          </div>
+          <div class="md-form">
+            <input name="username" type="text" id="username" value="{{ username }}" maxlength="32" class="form-control">
+            <label class="label-validation" for="username" data-error="Username must be between 6 and 32 characters long." data-success="Username good.">Username</label>
+          </div>
+          <div class="md-form">
+            <input name="first_name" type="text" id="first-name" value="{{ first_name }}" maxLength="255" class="form-control">
+            <label class="label-validation" for="first-name" data-error="First name must be no more than 255 characters long." data-success="First name good.">First Name</label>
+          </div>
+          <div class="md-form">
+            <input name="last_name" type="text" id="last-name" value="{{ last_name }}" maxLength="255" class="form-control">
+            <label class="label-validation" for="last-name" data-error="Last name must be no more than 255 characters long." data-success="Last name good.">Last Name</label>
+          </div>
+          <div class="text-right">
+            <button class="btn btn-large bg-elegant">Update Account Information</button>
+          </div>
+        </form>
       </div>
     </div>
     <div class="container pb-4">
       <h3>Security</h3>
       <hr>
       <div class="container">
-        <div class="md-form">
-          <input type="text" id="password-form">
-          <label for="password-form">Password</label>
-        </div>
-        <div class="md-form">
-          <input type="text" id="password-confirm-form">
-          <label for="password-confirm-form">Password Confirm</label>
-        </div>
-        <div class="text-right">
-          <a class="btn btn-large bg-elegant" href="/" role="button">Change Password</a>
-        </div>
+        <form action="/account/change-password" onsubmit="return validatePasswordForm()" method="post">
+          <div class="md-form">
+            <input type="password" id="old-password" name="old-password" maxLength="64" required class="form-control">
+            <label class="label-validation" for="old-password" data-error="Password must be between 6 and 64 characters long." data-success="Password good.">Old Password</label>
+          </div>
+          <div class="md-form">
+            <input type="password" id="new-password" name="new-password" maxLength="64" required class="form-control">
+            <label class="label-validation" for="new-password" data-error="Password must be between 6 and 64 characters long." data-success="Password good.">New Password</label>
+          </div>
+          <div class="md-form">
+            <input type="password" id="new-password-confirm" name="new-password-confirm" maxLength="64" required class="form-control">
+            <label class="label-validation" for="new-password-confirm" data-error="Passwords do not match." data-success="Password good.">New Password Confirm</label>
+          </div>
+          <div class="text-right">
+            <button class="btn btn-large bg-elegant">Change Password</button>
+          </div>
+        </form>
       </div>
     </div>
     <div class="container pb-4">
@@ -66,13 +92,39 @@
       <div class="container">
         <h4>Delete Account</h4>
         <p>
-          After deleting your account, you will not be able to recover your profile. All data associated to your account will be last.
+          After deleting your account, you will not be able to recover your profile. All data associated to your account will be lost.
         </p>
         <p>
           You will be promted to confirm before any action is taken.
         </p>
         <div class="text-right">
-          <a class="btn btn-large bg-elegant" href="/" role="button">Delete Account</a>
+          <button class="btn btn-large bg-elegant" data-toggle="modal" data-target="#account-deletion-confirmation-modal">Delete Account</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="account-deletion-confirmation-modal" tabindex="-1" role="dialog" aria-labelledby="Account Deletion Confirmation" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Delete Account</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="/account/delete-account" method="post">
+            <div class="modal-body">
+              <p>You are about to delete your account.  All data associated to your account will be lost. Are you sure you wish to continue?</p>
+              <p>Enter your password to confirm:</p>
+              <div class="md-form ml-4 mr-4">
+                <input type="password" id="account-deletion-password" name="account-deletion-password" maxLength="64" required class="form-control">
+                <label for="account-deletion-password">Password</label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn bg-blue-grey" data-dismiss="modal">Cancel</button>
+              <button class="btn bg-danger">Delete Account</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

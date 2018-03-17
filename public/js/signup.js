@@ -19,7 +19,7 @@ function validateForm() {
 
     /* Validate Password Length Constraint */
     var password = document.getElementById('password').value;
-    if(password.length > 64) {
+    if(password.length < 6 || password.length > 64) {
         document.getElementById('password').classList.add('invalid');
         return false;
     }
