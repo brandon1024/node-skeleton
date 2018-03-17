@@ -18,6 +18,7 @@ require('./config/authentication')(app, passport);
 
 /* Expose and Serve Static Files */
 app.use('/mdb', express.static(path.join(__dirname, 'node_modules', 'mdbootstrap')));
+app.use('/font-awesome', express.static(path.join(__dirname, 'node_modules', 'font-awesome')));
 app.use('/', express.static(path.join(__dirname, 'public')));
 
 /* Configure Route Handlers */

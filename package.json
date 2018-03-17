@@ -2,7 +2,12 @@
   "name": "node-skeleton",
   "version": "0.0.1",
   "private": true,
-  "authors": ["Brandon Richardson", "Jacob Smith", "Amir Eldesoky", "Alex ODonnel"],
+  "authors": [
+    "Brandon Richardson",
+    "Jacob Smith",
+    "Amir Eldesoky",
+    "Alex ODonnel"
+  ],
   "scripts": {
     "start": "node ./bin/server.js",
     "test": "NODE_ENV=test mocha \"test/**/*.js\" --exit",
@@ -10,25 +15,24 @@
     "rollback": "knex migrate:rollback --env development --knexfile config/db/knexfile.js & knex migrate:rollback --env test --knexfile config/db/knexfile.js & knex migrate:rollback --env production --knexfile config/db/knexfile.js"
   },
   "dependencies": {
-    "body-parser": "~1.18.2",
+    "body-parser": "^1.18.2",
     "bookshelf": "^0.12.1",
     "connect-flash": "^0.1.1",
-    "express": "~4.15.5",
+    "express": "^4.16.3",
     "express-session": "^1.15.6",
     "font-awesome": "^4.7.0",
-    "knex": "^0.14.3",
-    "mdbootstrap": "^4.4.4",
-    "morgan": "~1.9.0",
+    "knex": "^0.14.4",
+    "mdbootstrap": "4.4.4",
+    "morgan": "^1.9.0",
     "mysql": "^2.15.0",
-    "node-sass-middleware": "0.9.8",
+    "node-sass-middleware": "^0.11.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "showdown": "^1.8.6",
-    "twig": "~0.10.3"
+    "twig": "^1.10.5"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
-    "mocha": "^5.0.1"
+    "mocha": "^5.0.4"
   }
 }
