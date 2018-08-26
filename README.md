@@ -1,6 +1,8 @@
 # Node-Skeleton
 A real-world, configurable, and feature-rich Node.js web application built on the Express.js framework. 
 
+<img src="readme-screenshot.png"/>
+
 # Setup Application for Development
 This walkthrough assumes you have Node.js installed locally. If this is not the case, you can install it [here](https://nodejs.org/en/). You will also need to install the [WebStorm IDE from JetBrains](https://www.jetbrains.com/webstorm/download/#section=windows).
 
