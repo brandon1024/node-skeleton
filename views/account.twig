@@ -3,6 +3,11 @@
 {# Set Page Title #}
 {% block title %}{{ title }} - Account{% endblock %}
 
+{# Set Navbar Theme #}
+{% block nav %}
+  {% include 'navbar.twig' with {'title': title, 'navbartheme': 'light'} %}
+{% endblock %}
+
 {# Add View-Specific Stylesheets #}
 {% block stylesheets %}
   <link rel='stylesheet' href='/stylesheets/account.css'/>
@@ -58,7 +63,7 @@
             <label class="label-validation" for="last-name" data-error="Last name must be no more than 255 characters long." data-success="Last name good.">Last Name</label>
           </div>
           <div class="text-right">
-            <button class="btn btn-large bg-elegant">Update Account Information</button>
+            <button class="btn btn-large btn-primary">Update Account Information</button>
           </div>
         </form>
       </div>
@@ -81,7 +86,7 @@
             <label class="label-validation" for="new-password-confirm" data-error="Passwords do not match." data-success="Password good.">New Password Confirm</label>
           </div>
           <div class="text-right">
-            <button class="btn btn-large bg-elegant">Change Password</button>
+            <button class="btn btn-large btn-primary">Change Password</button>
           </div>
         </form>
       </div>
@@ -98,7 +103,7 @@
           You will be promted to confirm before any action is taken.
         </p>
         <div class="text-right">
-          <button class="btn btn-large bg-elegant" data-toggle="modal" data-target="#account-deletion-confirmation-modal">Delete Account</button>
+          <button class="btn btn-large btn-danger" data-toggle="modal" data-target="#account-deletion-confirmation-modal">Delete Account</button>
         </div>
       </div>
     </div>
@@ -121,8 +126,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button class="btn bg-blue-grey" data-dismiss="modal">Cancel</button>
-              <button class="btn bg-danger">Delete Account</button>
+              <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+              <button class="btn btn-danger">Delete Account</button>
             </div>
           </form>
         </div>

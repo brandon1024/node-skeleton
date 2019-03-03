@@ -10,8 +10,7 @@ const fileSystem = require('fs');
 if(!process.env.NODE_ENV) {
     console.log(`No NODE_ENV environment variable specified. Defaulting to 'development' environment.`);
     process.env.NODE_ENV = 'development';
-}
-else if(!['development', 'test', 'production'].includes(process.env.NODE_ENV)) {
+} else if(!['development', 'test', 'production'].includes(process.env.NODE_ENV)) {
     console.log(`Invalid NODE_ENV environment variable specified. Defaulting to 'development' environment.`);
     process.env.NODE_ENV = 'development';
 }
@@ -55,7 +54,7 @@ httpsServer.on('listening', () => {
 
 console.log('HTTPS Listening on port ' + HTTPSport);
 
-/* Configure HTTP Server According to ENFORCE_H TTPS*/
+/* Configure HTTP Server According to ENFORCE_HTTPS*/
 if(process.env.ENFORCE_HTTPS === 'true') {
     const HTTPport = normalizePort(process.env.HTTP_PORT || '80');
     http.createServer(function(req, res) {
@@ -65,8 +64,7 @@ if(process.env.ENFORCE_HTTPS === 'true') {
             res.writeHead(302, { "Location": "https://" + req.headers['host'] + req.url });
         res.end();
     }).listen(HTTPport);
-}
-else {
+} else {
     const HTTPport = normalizePort(process.env.HTTP_PORT || '80');
     const httpServer = http.createServer(app).listen(HTTPport);
     httpServer.on('error', (error) => {

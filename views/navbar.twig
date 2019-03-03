@@ -6,7 +6,11 @@
 
 {% set usercontrols %}
   <a data-toggle="dropdown" id="user-dropdown" aria-haspopup="true" aria-expanded="false">
-    <i class="fa fa-user-circle-o fa-2x white-text"></i>
+    {% if navbartheme == 'dark' %}
+      <i class="fa fa-user-circle-o fa-2x white-text"></i>
+    {% else %}
+      <i class="fa fa-user-circle-o fa-2x"></i>
+    {% endif %}
   </a>
   <div class="dropdown-menu dropdown-menu-right p-2" aria-labelledby="user-dropdown">
     <a class="dropdown-item" href="/dashboard">My Dashboard</a>
@@ -15,7 +19,7 @@
   </div>
 {% endset %}
 
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-blue-grey scrolling-navbar">
+<nav class="navbar fixed-top navbar-expand-lg navbar-{{ navbartheme }} scrolling-navbar">
   <a class="navbar-brand" href="/"><strong>{{ title }}</strong></a>
   <div class="navbar-toggle-buttons">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

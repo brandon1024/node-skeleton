@@ -3,6 +3,11 @@
 {# Set Page Title #}
 {% block title %}{{ title }} - Login{% endblock %}
 
+{# Set Navbar Theme #}
+{% block nav %}
+  {% include 'navbar.twig' with {'title': title, 'navbartheme': 'light'} %}
+{% endblock %}
+
 {# Add View-Specific Stylesheets #}
 {% block stylesheets %}
   <link rel='stylesheet' href='/stylesheets/login.css'/>
@@ -36,7 +41,7 @@
         <label for="defaultForm-pass">Password</label>
       </div>
       <div class="text-center">
-        <button class="btn bg-blue-grey"><i class="fa fa-user"></i> Go</button>
+        <button class="btn btn-primary"><i class="fa fa-user"></i> Go</button>
       </div>
       <div class="modal-footer border-0">
         <div class="options font-weight-light">

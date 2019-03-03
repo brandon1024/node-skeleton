@@ -3,6 +3,11 @@
 {# Set Page Title #}
 {% block title %}{{ title }} - Dashboard{% endblock %}
 
+{# Set Navbar Theme #}
+{% block nav %}
+  {% include 'navbar.twig' with {'title': title, 'navbartheme': 'light'} %}
+{% endblock %}
+
 {# Add View-Specific Stylesheets #}
 {% block stylesheets %}
   <link rel='stylesheet' href='/stylesheets/dashboard.css'/>

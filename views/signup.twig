@@ -3,6 +3,11 @@
 {# Set Page Title #}
 {% block title %}{{ title }} - Signup{% endblock %}
 
+{# Set Navbar Theme #}
+{% block nav %}
+  {% include 'navbar.twig' with {'title': title, 'navbartheme': 'light'} %}
+{% endblock %}
+
 {# Add View-Specific Stylesheets #}
 {% block stylesheets %}
   <link rel='stylesheet' href='/stylesheets/signup.css'/>
@@ -50,7 +55,7 @@
         <label class="label-validation" for="password-confirm" data-error="Passwords do not match." data-success="Passwords match.">Confirm Password</label>
       </div>
       <div class="text-center">
-        <button class="btn bg-blue-grey"><i class="fa fa-user-plus"></i> Get Started</button>
+        <button class="btn btn-primary"><i class="fa fa-user-plus"></i> Get Started</button>
       </div>
       <div class="modal-footer border-0">
         <div class="options font-weight-light">

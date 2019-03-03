@@ -15,24 +15,24 @@
     "rollback": "knex migrate:rollback --env development --knexfile config/db/knexfile.js & knex migrate:rollback --env test --knexfile config/db/knexfile.js & knex migrate:rollback --env production --knexfile config/db/knexfile.js"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "bookshelf": "^0.13.3",
-    "connect-flash": "^0.1.1",
-    "express": "^4.16.3",
-    "express-session": "^1.15.6",
-    "font-awesome": "^4.7.0",
-    "knex": "^0.15.2",
-    "mdbootstrap": "^4.5.2",
-    "morgan": "^1.9.0",
-    "mysql": "^2.16.0",
-    "node-sass-middleware": "^0.11.0",
-    "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
-    "twig": "^1.12.0"
+    "body-parser": "^1.18.x",
+    "bookshelf": "^0.14.x",
+    "connect-flash": "^0.1.x",
+    "express": "4.16.x",
+    "express-session": "^1.15.x",
+    "font-awesome": "^4.7.x",
+    "knex": "^0.16.x",
+    "mdbootstrap": "^4.7.x",
+    "morgan": "^1.9.x",
+    "mysql": "^2.16.x",
+    "node-sass-middleware": "^0.11.x",
+    "passport": "^0.x.x",
+    "passport-local": "^1.x.x",
+    "twig": "^1.13.x"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "chai-http": "^4.0.0",
-    "mocha": "^5.2.0"
+    "chai": "*",
+    "chai-http": "*",
+    "mocha": "*"
   }
 }
